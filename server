@@ -17,5 +17,5 @@ apt-get install -y mysql-server-5.5
 apt-get install -y php5-mysql
 
 apt-get install -y curl
-
+apt-get install -y php5-curl php5-gd php5-mcrypt php5-mysqlnd
 
