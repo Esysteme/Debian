@@ -1,1 +1,5 @@
-#nothing for the moment
+cd /root
+wget http://download.netbeans.org/netbeans/7.3.1/final/bundles/netbeans-7.3.1-php-linux.sh
+sh netbeans-7.3.1-php-linux.sh
+
+apt-get install -x xbmc
