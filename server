@@ -1,0 +1,21 @@
+apt-get install -y git
+apt-get install -y vim
+
+echo -e "deb http://packages.dotdeb.org wheezy-php55 all\n" >> /etc/apt/sources.list
+
+echo -e "deb-src http://packages.dotdeb.org wheezy-php55 all\n" >> /etc/apt/sources.list
+
+
+cd /root
+wget http://www.dotdeb.org/dotdeb.gpg
+cat dotdeb.gpg | sudo apt-key add -
+
+apt-get install -y apache2
+apt-get install -y php5
+
+apt-get install -y mysql-server-5.5
+apt-get install -y php5-mysql
+
+apt-get install -y curl
+
+
