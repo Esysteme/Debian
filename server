@@ -10,7 +10,7 @@ apt-get -y qqupgrade
 
 cd /root
 wget http://www.dotdeb.org/dotdeb.gpg
-cat dotdeb.gpg | sudo apt-key add -
+cat dotdeb.gpg | apt-key add -
 
 apt-get install -y apache2
 apt-get install -y php5
