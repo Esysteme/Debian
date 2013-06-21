@@ -34,3 +34,5 @@ apt-get install -y php5-mysql
 apt-get install -y curl
 apt-get install -y php5-curl php5-gd php5-mcrypt php5-mysqlnd
 
+
+apt-get install -y tree iftop nmap
