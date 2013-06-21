@@ -29,6 +29,13 @@ apt-get -f -y install
 
 
 
+
+
+#pidgin
+apt-get install -y pidgin
+
+
+
 #for Geforce 640 GT
 echo "deb http://http.debian.net/debian/ wheezy main contrib non-free" >> /etc/apt/sources.list
 
