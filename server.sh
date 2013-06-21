@@ -3,7 +3,8 @@ apt-get install -y vim
 
 
 #get install version of Debian
-version = lsb_release -c | cut -d ':' -f2 | tr -d '\t'
+#version = lsb_release -c | cut -d ':' -f2 | tr -d '\t'
+version = lsb_release -sc
 
 if [ $version -eq "wheezy" ]
 then
