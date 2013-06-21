@@ -19,9 +19,13 @@ apt-get install -y gsfonts gsfonts-other gsfonts-x11 msttcorefonts t1-xfree86-no
 
 
 #install skype
-wget http://download.skype.com/linux/skype-debian_4.2.0.11-1_i386.deb
-dpkg -i skype-debian_4.2.0.11-1_i386.deb
+wget -O skype-install.deb http://www.skype.com/go/getskype-linux-deb
 
+dpkg --add-architecture i386
+apt-get update
+
+dpkg -i skype-install.deb
+apt-get -f -y install
 
 
 
