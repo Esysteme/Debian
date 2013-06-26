@@ -36,3 +36,11 @@ apt-get install -y php5-curl php5-gd php5-mcrypt php5-mysqlnd
 
 
 apt-get install -y tree iftop nmap
+
+mkdir -p /home/www/
+
+cd /home/www/
+
+curl -sS http://www.glial-framework-php.org/installer | php -- --install-dir="/home/www/species" --application="Esysteme/Estrildidae"
+
+
