@@ -35,6 +35,11 @@ apt-get install -y curl
 apt-get install -y pidgin
 
 
+cd
+wget -q http://prdownloads.sourceforge.net/webadmin/
+dpkg -i webmin_1.630_all.deb
+
+
 
 #for Geforce 640 GT
 echo "deb http://http.debian.net/debian/ wheezy main contrib non-free" >> /etc/apt/sources.list
