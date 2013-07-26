@@ -28,7 +28,7 @@ dpkg -i skype-install.deb
 apt-get -f -y install
 
 
-
+apt-get install -y curl
 
 
 #pidgin
