@@ -23,7 +23,7 @@ cat dotdeb.gpg | apt-key add -
 apt-get update
 apt-get -y upgrade
 
-
+apt-get install -y screen
 
 apt-get install -y apache2
 apt-get install -y php5
