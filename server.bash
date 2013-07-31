@@ -6,7 +6,7 @@ apt-get install -y vim
 #version = lsb_release -c | cut -d ':' -f2 | tr -d '\t'
 version = lsb_release -sc
 
-if [ $version -eq "wheezy" ]
+if [ $version = "wheezy" ]
 then
 echo -e "deb http://packages.dotdeb.org wheezy-php55 all\n" >> /etc/apt/sources.list
 echo -e "deb-src http://packages.dotdeb.org wheezy-php55 all\n" >> /etc/apt/sources.list
