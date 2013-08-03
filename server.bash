@@ -44,3 +44,11 @@ cd /home/www/
 curl -sS http://www.glial-framework-php.org/installer | php -- --install-dir="/home/www/species" --application="Esysteme/Estrildidae"
 
 
+echo 'deb http://download.opensuse.org/repositories/isv:ownCloud:devel/Debian_7.0/ /' >> /etc/apt/sources.list.d/owncloud-client.list
+wget http://download.opensuse.org/repositories/isv:ownCloud:devel/Debian_7.0/Release.key
+
+apt-key add - < Release.key
+
+apt-get update
+apt-get install -y owncloud-client
+
