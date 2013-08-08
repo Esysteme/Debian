@@ -52,4 +52,4 @@ apt-get install -y owncloud-client
 
 
 a2enmod rewrite
-
+echo 'syntax on' > ~/.vimrc
