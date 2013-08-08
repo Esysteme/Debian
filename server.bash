@@ -50,3 +50,6 @@ apt-key add - < Release.key
 apt-get update
 apt-get install -y owncloud-client
 
+
+a2enmod rewrite
+
