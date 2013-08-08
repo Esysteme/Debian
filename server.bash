@@ -37,11 +37,9 @@ apt-get install -y php5-curl php5-gd php5-mcrypt php5-mysqlnd
 
 apt-get install -y tree iftop nmap
 
-mkdir -p /home/www/
-
-cd /home/www/
-
-curl -sS http://www.glial-framework-php.org/installer | php -- --install-dir="/home/www/species" --application="Esysteme/Estrildidae"
+#mkdir -p /home/www/
+#cd /home/www/
+#curl -sS http://www.glial-framework-php.org/installer | php -- --install-dir="/home/www/species" --application="Esysteme/Estrildidae"
 
 
 echo 'deb http://download.opensuse.org/repositories/isv:ownCloud:devel/Debian_7.0/ /' >> /etc/apt/sources.list.d/owncloud-client.list
