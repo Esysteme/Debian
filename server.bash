@@ -4,16 +4,16 @@ apt-get install -y vim
 
 #get install version of Debian
 #version = lsb_release -c | cut -d ':' -f2 | tr -d '\t'
-version = lsb_release -sc
+#version = lsb_release -sc
 
-if [ $version = "wheezy" ]
-then
+#if [ $version = "wheezy" ]
+#then
 echo -e "deb http://packages.dotdeb.org wheezy-php55 all\n" >> /etc/apt/sources.list
 echo -e "deb-src http://packages.dotdeb.org wheezy-php55 all\n" >> /etc/apt/sources.list
-else
-echo -e "deb http://packages.dotdeb.org squeeze-php54 all\n" >> /etc/apt/sources.list
-echo -e "deb-src http://packages.dotdeb.org squeeze-php54 all\n" >> /etc/apt/sources.list
-fi
+#else
+#echo -e "deb http://packages.dotdeb.org squeeze-php54 all\n" >> /etc/apt/sources.list
+#echo -e "deb-src http://packages.dotdeb.org squeeze-php54 all\n" >> /etc/apt/sources.list
+#fi
 
 cd /root
 wget http://www.dotdeb.org/dotdeb.gpg
