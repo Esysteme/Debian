@@ -53,6 +53,18 @@ hg clone http://10.249.8.229/hg/Adel php4_adel
 
 
 
+#install oracle client for php
+aptitude install php-pear php5-dev build-essential unzip libaio1
+
+apt-get install -y rpm
+
+rpm -Uvh oracle-instantclient11.2-basic-11.2.0.3.0-1.x86_64.rpm 
+rpm -Uvh oracle-instantclient11.2-devel-11.2.0.3.0-1.x86_64.rpm 
+
+
+pecl install oci8
+
+
 
 #curl -sS http://www.glial-framework-php.org/installer | php -- --install-dir="/home/www/species" --application="Esysteme/Estrildidae"
 
