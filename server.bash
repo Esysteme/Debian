@@ -67,6 +67,13 @@ alien -i oracle-instantclient11.2-devel-11.2.0.3.0-1.x86_64.rpm
 
 pecl install oci8
 
+mkdir -p /usr/share/php5/oci8
+
+echo "extension=oci8.so" > /usr/share/php5/oci8/oci8.ini
+echo "extension=oci8.so" > /etc/php5/apache2/conf.d/20-oci8.ini
+
+
+
 
 
 #curl -sS http://www.glial-framework-php.org/installer | php -- --install-dir="/home/www/species" --application="Esysteme/Estrildidae"
