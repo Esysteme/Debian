@@ -1,3 +1,5 @@
+
+#you must be root to execute this script
 apt-get install -y git
 apt-get install -y vim
 
@@ -13,16 +15,16 @@ cat dotdeb.gpg | apt-key add -
 apt-get update
 apt-get -y upgrade
 
-
 #install screen
 apt-get install -y screen
-
 
 #install LAMP
 apt-get install -y apache2
 apt-get install -y php5
 
 apt-get install -y mysql-server-5.5
+
+#only to support all application who still use the finction mysql_
 apt-get install -y php5-mysql
 
 apt-get install -y curl
@@ -31,6 +33,14 @@ apt-get install -y php5-curl php5-gd php5-mcrypt php5-mysqlnd
 
 #install tools
 apt-get install -y tree iftop nmap
+
+#install du client NFS
+apt-get install -y nfs-common
+
+#install samba (only for dev server)
+apt-get install -y samba
+
+
 
 #mkdir -p /home/www/
 #cd /home/www/
