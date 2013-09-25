@@ -59,6 +59,9 @@ aptitude install php-pear php5-dev build-essential unzip libaio1
 apt-get install -y rpm
 apt-get install -y alien 
 
+alien -i oracle-instantclient12.1-basic-12.1.0.1.0-1.x86_64.rpm
+
+
 rpm -Uvh oracle-instantclient11.2-basic-11.2.0.3.0-1.x86_64.rpm 
 rpm -Uvh oracle-instantclient11.2-devel-11.2.0.3.0-1.x86_64.rpm 
 
