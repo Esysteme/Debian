@@ -44,6 +44,14 @@ mkdir -p /home/www/
 cd /home/www/
 
 
+#specifiy to Alstom
+apt-get install mercurial
+
+hg clone http://10.249.8.229/hg/Adel php4_adel
+#setup .hg/hgrc
+
+
+
 
 
 #curl -sS http://www.glial-framework-php.org/installer | php -- --install-dir="/home/www/species" --application="Esysteme/Estrildidae"
