@@ -1,4 +1,3 @@
-
 #you must be root to execute this script
 apt-get install -y git
 apt-get install -y vim
@@ -41,9 +40,12 @@ apt-get install -y nfs-common
 apt-get install -y samba
 
 
+mkdir -p /home/www/
+cd /home/www/
 
-#mkdir -p /home/www/
-#cd /home/www/
+
+
+
 #curl -sS http://www.glial-framework-php.org/installer | php -- --install-dir="/home/www/species" --application="Esysteme/Estrildidae"
 
 
