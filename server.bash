@@ -52,25 +52,36 @@ hg clone http://10.249.8.229/hg/Adel php4_adel
 
 
 
+################################################################
+# install oracle client for php                                #
+################################################################
 
-#install oracle client for php
+#software required to install clien ocracle
 aptitude install php-pear php5-dev build-essential unzip libaio1
 
-apt-get install -y rpm
+
+#install tools to install RPM package
 apt-get install -y alien 
 
+
+#install clien oracle
+#get package from http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html
+#you need to be registered and accept license agreement to dl these the following files
 alien -i oracle-instantclient12.1-basic-12.1.0.1.0-1.x86_64.rpm
 alien -i oracle-instantclient11.2-devel-11.2.0.3.0-1.x86_64.rpm 
 
-#rpm -Uvh oracle-instantclient11.2-basic-11.2.0.3.0-1.x86_64.rpm 
-#rpm -Uvh oracle-instantclient11.2-devel-11.2.0.3.0-1.x86_64.rpm 
-
+#install package manager for php
 pecl install oci8
 
+#set configuration for apache and php-cli
 mkdir -p /usr/share/php5/oci8
-
 echo "extension=oci8.so" > /usr/share/php5/oci8/oci8.ini
 echo "extension=oci8.so" > /etc/php5/apache2/conf.d/20-oci8.ini
+echo "extension=oci8.so" > /etc/php5/cli/conf.d/20-readline.ini
+
+#restart apache
+service apache2 restart
+################################################################
 
 
 
