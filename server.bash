@@ -84,7 +84,14 @@ service apache2 restart
 ################################################################
 
 
+#install server mail
+apt-get install postfix
+# let default configuration
+
+
+################################################################
 #install webmin
+################################################################
 
 #get webmin
 wget http://prdownloads.sourceforge.net/webadmin/webmin_1.650_all.deb
@@ -94,6 +101,14 @@ dpkg -i webmin_1.650_all.deb
 
 #get dependencies
 apt-get -f install
+
+#go to https://192.168.24.135:10000/
+#login with root and his password
+#go to samba onglet
+
+#active all in "User Synchronisation", put all to yes
+
+# click on "Convert Users" and apply
 
 #curl -sS http://www.glial-framework-php.org/installer | php -- --install-dir="/home/www/species" --application="Esysteme/Estrildidae"
 
