@@ -84,8 +84,16 @@ service apache2 restart
 ################################################################
 
 
+#install webmin
 
+#get webmin
+wget http://prdownloads.sourceforge.net/webadmin/webmin_1.650_all.deb
 
+#install package
+dpkg -i webmin_1.650_all.deb
+
+#get dependencies
+apt-get -f install
 
 #curl -sS http://www.glial-framework-php.org/installer | php -- --install-dir="/home/www/species" --application="Esysteme/Estrildidae"
 
