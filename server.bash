@@ -93,6 +93,8 @@ apt-get install postfix
 #install webmin
 ################################################################
 
+
+apt-get install apt-show-versions libapt-pkg-perl libauthen-pam-perl libio-pty-perl
 #get webmin
 wget http://prdownloads.sourceforge.net/webadmin/webmin_1.650_all.deb
 
