@@ -34,6 +34,11 @@ mkdir -p /home/www/
 cd /home/www/
 
 
+curl -sS https://getcomposer.org/installer | php --
+mv composer.phar /usr/local/bin/composer
+
+
+
 #specifiy to Alstom
 apt-get install mercurial
 
