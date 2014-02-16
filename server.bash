@@ -22,6 +22,10 @@ apt-get install -y apache2 php5 mysql-server-5.5 php-pear
 apt-get install -y curl php5-curl php5-gd php5-mcrypt php5-mysqlnd tree iftop nmap php5-mysql
 
 
+sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php5/apache2/php.ini
+sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php5/cli/php.ini
+
+service apache2 restart
 
 #install du client NFS
 apt-get install -y nfs-common
