@@ -27,6 +27,10 @@ sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php5/cli/php.ini
 
 sed -i 's/\/var\/www/\/home\/www/g'  /etc/apache2/sites-enabled/000-default
 
+
+a2enmod php5
+a2enmod rewrite
+
 service apache2 restart
 
 #install du client NFS
