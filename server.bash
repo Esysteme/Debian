@@ -19,7 +19,7 @@ apt-get install -y screen
 
 #install LAMP
 apt-get install -y apache2 php5 mysql-server-5.5 php-pear
-apt-get install -y curl php5-curl php5-gd php5-mcrypt php5-mysqlnd tree iftop nmap
+apt-get install -y curl php5-curl php5-gd php5-mcrypt php5-mysqlnd tree iftop nmap php5-xsl
 
 
 sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php5/apache2/php.ini
