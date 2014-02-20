@@ -25,6 +25,8 @@ apt-get install -y curl php5-curl php5-gd php5-mcrypt php5-mysqlnd tree iftop nm
 sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php5/apache2/php.ini
 sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php5/cli/php.ini
 
+sed -i 's/\/var\/www/\/home\/www/g'  /etc/apache2/sites-enabled/000-default
+
 service apache2 restart
 
 #install du client NFS
