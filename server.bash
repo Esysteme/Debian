@@ -42,6 +42,29 @@ apt-get install -y nfs-common
 apt-get install -y samba
 
 
+
+#samba config
+
+add :
+[www]
+    path = /home/www
+    browseable = yes
+    read only = no
+    guest ok = no
+    create mask = 0644
+    directory mask = 0755
+    force user = aurelien
+
+
+useradd aurelien 
+
+smbpasswd -a aurelien
+
+
+
+
+
+
 mkdir -p /home/www/
 cd /home/www/
 
