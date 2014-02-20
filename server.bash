@@ -22,6 +22,8 @@ apt-get install -y apache2 php5 mysql-server-5.5 php-pear
 apt-get install -y curl php5-curl php5-gd php5-mcrypt php5-mysqlnd tree iftop nmap php5-xsl libapache2-mod-suphp libapache2-mod-php5
 
 
+apt-get remove apache2-mpm-worker
+
 sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php5/apache2/php.ini
 sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php5/cli/php.ini
 
