@@ -1,3 +1,5 @@
+sed -i 's/deb cdrom/#deb cdrom/g' /etc/apt/sources.list
+
 #you must be root to execute this script
 apt-get install -y git
 apt-get install -y vim
