@@ -126,7 +126,7 @@ apt-get install postfix
 ################################################################
 
 
-apt-get install apt-show-versions libapt-pkg-perl libauthen-pam-perl libio-pty-perl
+apt-get install apt-show-versions libapt-pkg-perl libauthen-pam-perl libio-pty-perl libnet-ssleay-perl
 #get webmin
 #wget http://prdownloads.sourceforge.net/webadmin/webmin_1.650_all.deb
 wget http://optimate.dl.sourceforge.net/project/webadmin/webmin/1.650/webmin_1.650_all.deb
