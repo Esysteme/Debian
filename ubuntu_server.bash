@@ -74,7 +74,7 @@ cat >> /etc/samba/smb.conf << EOF
     browseable = yes
     create mask = 0644
     directory mask = 0755
-    force user = aurelien
+    force user = www-data
     
 EOF
 
