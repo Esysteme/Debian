@@ -81,8 +81,4 @@ EOF
 
 /etc/init.d/smbd restart
 
-
-
-
-
-
+chown www-data:www-data -R /home/www
