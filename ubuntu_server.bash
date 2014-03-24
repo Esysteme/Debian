@@ -79,7 +79,7 @@ cat >> /etc/samba/smb.conf << EOF
 EOF
 
 
-
+/etc/init.d/smbd restart
 
 
 
