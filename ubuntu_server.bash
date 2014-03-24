@@ -64,6 +64,25 @@ apt-get install -y samba
 smbpasswd -a www-data
 
 
+cat >> /etc/samba/smb.conf << EOF
+
+[www]
+    path = /home/www
+    read only = no
+    browseable = yes
+    guest ok = no
+    browseable = yes
+    create mask = 0644
+    directory mask = 0755
+    force user = aurelien
+    
+EOF
+
+
+
+
+
+
 
 
 
