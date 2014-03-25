@@ -28,7 +28,7 @@ apt-get install -y mariadb-server
 #others
 
 
-apt-get install -y curl php5-curl php5-gd php5-mcrypt php5-mysqlnd tree iftop nmap php5-xsl
+apt-get install -y curl php5-curl php5-gd php5-mcrypt php5-mysqlnd tree iftop nmap php5-xsl libssh2-php
 
 
 
