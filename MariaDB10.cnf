@@ -10,6 +10,9 @@ character-set-server = utf8
 collation-server = utf8_general_ci
 
 
+external-locking = off
+
+
 #make a crc32 of ip server
 #server-id=2577252028
 #replicate-do-db=PRODUCTION
