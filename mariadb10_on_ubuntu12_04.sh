@@ -20,3 +20,18 @@ chown mysql:mysql /var/lib/log_mysql
 
 mkdir -p /var/lib/mysql_backup
 chown mysql:mysql /var/lib/mysql_backup
+
+
+cat >> /etc/mysql/conf.d/mariadb.cnf << EOF
+
+[www]
+    path = /home/www
+    read only = no
+    browseable = yes
+    guest ok = no
+    browseable = yes
+    create mask = 0644
+    directory mask = 0755
+    force user = www-data
+    
+EOF
