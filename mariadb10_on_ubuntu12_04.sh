@@ -1,5 +1,5 @@
 #to start this script :
-# curl -sS https://getcomposer.org/installer | php
+# curl -sS https://raw.githubusercontent.com/Esysteme/Debian/master/mariadb10_on_ubuntu12_04.sh | bash
 
 apt-get -y install python-software-properties
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
