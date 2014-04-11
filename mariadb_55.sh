@@ -1,5 +1,6 @@
 #to start this script :
-# curl -sS https://raw.githubusercontent.com/Esysteme/Debian/master/mariadb10_on_ubuntu12_04.sh | bash
+# curl -sS https://raw.githubusercontent.com/Esysteme/Debian/master/mariadb_55.sh | bash
+
 
 apt-get -y install python-software-properties
 
