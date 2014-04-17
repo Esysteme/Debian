@@ -61,6 +61,7 @@ cat >> /etc/mysql/conf.d/mariadb10.cnf << EOF
 
  #innodb
  innodb_buffer_pool_size = 4G
+ innodb_flush_method     = O_DIRECT
 
 
  #for master
