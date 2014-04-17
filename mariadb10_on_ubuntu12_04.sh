@@ -97,3 +97,12 @@ EOF
 
 
 /etc/init.d/mysql restart
+
+
+cd /tmp
+
+wget http://www.percona.com/redir/downloads/percona-toolkit/LATEST/deb/percona-toolkit_2.2.7_all.deb && dpkg -i percona-toolkit_2.2.7_all.deb && apt-get -f install && rm percona-toolkit_2.2.7_all.deb
+
+
+
+
