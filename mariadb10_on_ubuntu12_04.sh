@@ -98,6 +98,7 @@ EOF
 
 /etc/init.d/mysql restart
 
+apt-get -y libterm-readkey-perl
 
 cd /tmp
 
