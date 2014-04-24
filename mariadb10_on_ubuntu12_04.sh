@@ -99,7 +99,7 @@ EOF
 
 /etc/init.d/mysql restart
 
-apt-get -y libio-socket-inet6-perl libio-socket-ssl-perl libnet-libidn-perl libnet-ssleay-perl libsocket6-perl libterm-readkey-perl
+apt-get -y install libio-socket-inet6-perl libio-socket-ssl-perl libnet-libidn-perl libnet-ssleay-perl libsocket6-perl libterm-readkey-perl
 
 cd /tmp
 
