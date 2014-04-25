@@ -1,12 +1,12 @@
 #to start this script :
 # curl -sS https://raw.githubusercontent.com/Esysteme/Debian/master/mariadb_55.sh | bash
 
+#mkfs.ext4 -j -L varlib -O dir_index -m 2 -J size=400 -b 4096 -R stride=16 /dev/sdb1
+
+
 
 apt-get -y install python-software-properties
-
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-
-
 echo "deb http://mirror.stshosting.co.uk/mariadb/repo/5.5/ubuntu precise main" >> /etc/apt/sources.list.d/mysql.list
 apt-get update
 apt-get -y install mariadb-server
@@ -18,6 +18,17 @@ mkdir -p /var/lib/mysql_log
 chown mysql:mysql /var/lib/mysql_log
 mkdir -p /var/lib/mysql_backup
 chown mysql:mysql /var/lib/mysql_backup
+
+
+
+testvm = `hostname | grep test | wc -l`
+
+if  testvm = 1 
+then
+ innodb_use_native_aio = 0
+ else
+ innodb_use_native_aio = 1
+ fi;
 
 
 cat >> /etc/mysql/conf.d/mariadb10.cnf << EOF
@@ -49,6 +60,7 @@ cat >> /etc/mysql/conf.d/mariadb10.cnf << EOF
 
  #innodb
  innodb_buffer_pool_size = 4G
+ innodb_flush_method     = O_DIRECT
 
 
  #for master
@@ -85,3 +97,13 @@ EOF
 
 
 /etc/init.d/mysql restart
+
+apt-get -y install libio-socket-inet6-perl libio-socket-ssl-perl libnet-libidn-perl libnet-ssleay-perl libsocket6-perl libterm-readkey-perl
+
+cd /tmp
+
+wget http://www.percona.com/redir/downloads/percona-toolkit/LATEST/deb/percona-toolkit_2.2.7_all.deb && dpkg -i percona-toolkit_2.2.7_all.deb && apt-get -f install && rm percona-toolkit_2.2.7_all.deb
+
+
+
+
