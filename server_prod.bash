@@ -12,8 +12,8 @@ apt-get -y install python-software-properties
 apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
 
 add-apt-repository 'deb http://ftp.igh.cnrs.fr/pub/mariadb/repo/10.0/debian wheezy main'
-apt-get update
-apt-get install mariadb-server
+apt-get -y update
+apt-get -y install mariadb-server
 
 
 #you must be root to execute this script
