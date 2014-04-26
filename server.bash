@@ -1,4 +1,20 @@
+
 sed -i 's/deb cdrom/#deb cdrom/g' /etc/apt/sources.list
+
+
+apt-get install -y curl
+
+
+
+#install mariadb10
+apt-get -y install python-software-properties
+
+apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
+
+add-apt-repository 'deb http://ftp.igh.cnrs.fr/pub/mariadb/repo/10.0/debian wheezy main'
+apt-get update
+apt-get install mariadb-server
+
 
 #you must be root to execute this script
 apt-get install -y git
@@ -6,8 +22,8 @@ apt-get install -y vim
 
 
 # install dotdeb 
-echo -e "deb http://packages.dotdeb.org wheezy-php55 all\n" >> /etc/apt/sources.list
-echo -e "deb-src http://packages.dotdeb.org wheezy-php55 all\n" >> /etc/apt/sources.list
+echo -e "deb http://packages.dotdeb.org wheezy-php55 all\n" >> /etc/apt/sources.list.d/php.list
+echo -e "deb-src http://packages.dotdeb.org wheezy-php55 all\n" >> /etc/apt/sources.list.d/php.list
 
 cd /root
 wget http://www.dotdeb.org/dotdeb.gpg
@@ -20,7 +36,7 @@ apt-get -y upgrade
 apt-get install -y screen
 
 #install LAMP
-apt-get install -y apache2 php5 mysql-server-5.5 php-pear
+apt-get install -y apache2 php5 php-pear
 apt-get install -y curl php5-curl php5-gd php5-mcrypt php5-mysqlnd tree iftop nmap php5-xsl libapache2-mod-suphp libapache2-mod-php5
 
 
