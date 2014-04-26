@@ -1,4 +1,3 @@
-
 sed -i 's/deb cdrom/#deb cdrom/g' /etc/apt/sources.list
 
 
@@ -71,12 +70,12 @@ add :
     guest ok = no
     create mask = 0644
     directory mask = 0755
-    force user = aurelien
+    force user = www-data
 
 
 useradd aurelien 
 
-smbpasswd -a aurelien
+smbpasswd -a www-data
 
 
 
