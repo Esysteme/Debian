@@ -3,6 +3,7 @@ sed -i 's/deb cdrom/#deb cdrom/g' /etc/apt/sources.list
 
 apt-get install -y curl
 
+# curl -sS https://raw.githubusercontent.com/Esysteme/Debian/master/server_prod.bash | bash
 
 
 #install mariadb10
