@@ -15,10 +15,30 @@ apt-get -y install mariadb-server
 #set password
 
 
-mkdir -p /var/lib/mysql_log
-chown mysql:mysql /var/lib/mysql_log
-mkdir -p /var/lib/mysql_backup
-chown mysql:mysql /var/lib/mysql_backup
+$user = `egrep password /etc/mysql/debian.cnf | cut -d ' ' -f 3 | head -n1 | tr -d '\n'`
+$passwd = `egrep password /etc/mysql/debian.cnf | cut -d ' ' -f 3 | head -n1 | tr -d '\n'`
+
+
+/etc/init.d/mysql stop
+
+
+
+
+
+
+
+
+mkdir -p /data/mysql/log
+chown mysql:mysql /data/mysql/log
+
+mkdir -p /data/mysql/backup
+chown mysql:mysql /data/mysql/backup
+
+mkdir -p /data/mysql/data
+chown mysql:mysql /data/mysql/data
+
+mkdir -p /data/mysql/binlog
+chown mysql:mysql /data/mysql/binlog
 
 
 
@@ -29,82 +49,82 @@ then
  innodb_use_native_aio = 0
  else
  innodb_use_native_aio = 1
- fi;
+fi;
 
 
 cat >> /etc/mysql/conf.d/mariadb10.cnf << EOF
 
 #custom cnf for photobox
 
- [client]
+[client]
 
- #default-character-set = utf8
-
-
-
- [mysqld]
- character-set-client-handshake = FALSE
- character-set-server = utf8
- collation-server = utf8_general_ci
+# default-character-set = utf8
 
 
 
- bind-address        = 0.0.0.0
- external-locking    = off
- skip-name-resolve
-
- #make a crc32 of ip server
- server-id=2577252028
- #replicate-do-db=PRODUCTION,SHIPPINGENGINE
- replicate-ignore-db=mysql,information_schema,performance_schema
+[mysqld]
+character-set-client-handshake = FALSE
+character-set-server = utf8
+collation-server = utf8_general_ci
 
 
- #innodb
- innodb_buffer_pool_size = 4G
- innodb_flush_method     = O_DIRECT
+
+bind-address        = 0.0.0.0
+external-locking    = off
+skip-name-resolve
+datadir             = /data/mysql/data
+
+#make a crc32 of ip server
+server-id=2577252028
+#replicate-do-db=PRODUCTION,SHIPPINGENGINE
+replicate-ignore-db=mysql,information_schema,performance_schema
+
+
+#innodb
+innodb_buffer_pool_size = 4G
+innodb_flush_method     = O_DIRECT
 
 
  #for master
- log_bin                 = /var/lib/mysql_log/mariadb-bin
- log_bin_index           = /var/lib/mysql_log/mariadb-bin.index
+log_bin                 = /data/mysql/binlog/mariadb-bin
+log_bin_index           = /data/mysql/binlog/mariadb-bin.index
 
- max_binlog_size         = 1G
- expire_logs_days        = 15
- binlog-ignore-db    = information_schema,mysql,performance_schema
-
-
- #log
- slow_query_log_file     = /var/log/mysql/mariadb-slow.log
- long_query_time = 10
+max_binlog_size         = 1G
+expire_logs_days        = 15
+binlog-ignore-db    = information_schema,mysql,performance_schema
 
 
- # * Fine Tuning
- #
- max_connections         = 500
- connect_timeout         = 60
- wait_timeout            = 600
- max_allowed_packet      = 16M
- thread_cache_size       = 128
- sort_buffer_size        = 10M
- bulk_insert_buffer_size = 16M
- tmp_table_size          = 64M
- max_heap_table_size     = 64M
+#log
+slow_query_log_file     = /data/mysql/log/mariadb-slow.log
+long_query_time = 10
 
 
- [mysql]
- default-character-set   = utf8
+# * Fine Tuning
+#
+max_connections         = 500
+connect_timeout         = 60
+wait_timeout            = 600
+max_allowed_packet      = 16M
+thread_cache_size       = 128
+sort_buffer_size        = 10M
+bulk_insert_buffer_size = 16M
+tmp_table_size          = 64M
+max_heap_table_size     = 64M
+
+
+[mysql]
+default-character-set   = utf8
     
 EOF
 
 
-/etc/init.d/mysql restart
+
+cp -ar /var/lib/mysql /data/mysql/data
+
+/etc/init.d/mysql start
 
 apt-get -y install libio-socket-inet6-perl libio-socket-ssl-perl libnet-libidn-perl libnet-ssleay-perl libsocket6-perl libterm-readkey-perl
 
 cd /tmp
 
 wget http://www.percona.com/redir/downloads/percona-toolkit/LATEST/deb/percona-toolkit_2.2.7_all.deb && dpkg -i percona-toolkit_2.2.7_all.deb && apt-get -f install && rm percona-toolkit_2.2.7_all.deb
-
-
-
-
