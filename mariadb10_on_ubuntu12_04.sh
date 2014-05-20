@@ -63,7 +63,7 @@ datadir             = /data/mysql/data
 server-id=$id_server
 #replicate-do-db=PRODUCTION,SHIPPINGENGINE
 replicate-ignore-db=mysql,information_schema,performance_schema
-
+skip-slave-start
 
 #innodb
 innodb_buffer_pool_size = 4G
