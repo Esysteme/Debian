@@ -32,14 +32,7 @@ chown mysql:mysql /data/mysql/data
 mkdir -p /data/mysql/binlog
 chown mysql:mysql /data/mysql/binlog
 
-testvm = `hostname | grep test | wc -l`
 
-if  testvm = 1 
-then
- innodb_use_native_aio=0
- else
- innodb_use_native_aio=1
-fi;
 
 cat >> /etc/mysql/conf.d/mariadb10.cnf << EOF
 
