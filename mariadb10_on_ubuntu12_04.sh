@@ -1,6 +1,8 @@
 #to start this script :
 # curl -sS https://raw.githubusercontent.com/Esysteme/Debian/master/mariadb10_on_ubuntu12_04.sh | bash
 #mkfs.ext4 -j -L varlib -O dir_index -m 2 -J size=400 -b 4096 -R stride=16 /dev/sdb1
+# blkid /dev/sdb1
+# UUID=5ad079e8-178f-4d11-ba1d-3b1934ac9430 /data        ext4    rw,noatime,nodiratime,nobarrier,data=ordered 0 1
 
 apt-get -y install python-software-properties
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
