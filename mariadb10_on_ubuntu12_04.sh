@@ -21,20 +21,12 @@ id_server=`echo -n $crc32 | cut -d ' ' -f 2 | tr -d '\n'`
 /etc/init.d/mysql stop
 
 mkdir -p /data/mysql/log
-chown mysql:mysql /data/mysql/log
-
 mkdir -p /data/mysql/backup
-chown mysql:mysql /data/mysql/backup
-
 mkdir -p /data/mysql/data
-chown mysql:mysql /data/mysql/data
-
 mkdir -p /data/mysql/binlog
-chown mysql:mysql /data/mysql/binlog
 
 
-
-cat >> /etc/mysql/conf.d/mariadb10.cnf << EOF
+cat > /etc/mysql/conf.d/mariadb.cnf << EOF
 
 #custom cnf for photobox
 
@@ -73,8 +65,11 @@ log_bin_index           = /data/mysql/binlog/mariadb-bin.index
 
 max_binlog_size         = 1G
 expire_logs_days        = 15
-binlog-ignore-db    = information_schema,mysql,performance_schema
+binlog-ignore-db    = information_schema
+binlog-ignore-db    = mysql
+binlog-ignore-db    = performance_schema
 
+binlog_format = ROW
 
 #log
 slow_query_log_file     = /data/mysql/log/mariadb-slow.log
@@ -93,14 +88,19 @@ bulk_insert_buffer_size = 16M
 tmp_table_size          = 64M
 max_heap_table_size     = 64M
 
+innodb_autoinc_lock_mode = 2
+innodb_flush_log_at_trx_commit = 2
+innodb_locks_unsafe_for_binlog = 1
+
 [mysql]
 default-character-set   = utf8
     
 EOF
 
 
-
 cp -ar /var/lib/mysql /data/mysql/data
+
+chown mysql:mysql -R /data/mysql
 
 /etc/init.d/mysql start
 
