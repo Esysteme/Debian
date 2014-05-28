@@ -47,7 +47,7 @@ skip-name-resolve
 datadir             = /data/mysql/data
 
 #make a crc32 of ip server
-server-id={$id_server}
+server-id=$id_server
 
 replicate-ignore-db=mysql
 replicate-ignore-db=information_schema
