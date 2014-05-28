@@ -55,9 +55,11 @@ skip-name-resolve
 datadir             = /data/mysql/data
 
 #make a crc32 of ip server
-server-id=$id_server
-#replicate-do-db=PRODUCTION,SHIPPINGENGINE
-replicate-ignore-db=mysql,information_schema,performance_schema
+server-id={$id_server}
+
+replicate-ignore-db=mysql
+replicate-ignore-db=information_schema
+replicate-ignore-db=performance_schema
 skip-slave-start
 
 #innodb
