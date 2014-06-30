@@ -88,6 +88,8 @@ bulk_insert_buffer_size = 16M
 tmp_table_size          = 64M
 max_heap_table_size     = 64M
 
+
+innodb_file_per_table
 innodb_autoinc_lock_mode = 2
 innodb_flush_log_at_trx_commit = 2
 innodb_locks_unsafe_for_binlog = 1
