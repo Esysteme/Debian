@@ -101,7 +101,7 @@ default-character-set   = utf8
 EOF
 
 
-cp -ar /var/lib/mysql /data/mysql/data
+cp -pr /var/lib/mysql/* /data/mysql/data
 
 chown mysql:mysql -R /data/mysql
 
