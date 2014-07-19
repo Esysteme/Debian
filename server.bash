@@ -115,7 +115,7 @@ apt-get install -y alien
 #get package from http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html
 #you need to be registered and accept license agreement to dl these the following files
 alien -i oracle-instantclient12.1-basic-12.1.0.1.0-1.x86_64.rpm
-alien -i oracle-instantclient11.2-devel-11.2.0.3.0-1.x86_64.rpm 
+alien -i oracle-instantclient12.1-devel-12.1.0.1.0-1.x86_64.rpm 
 
 #install package manager for php
 pecl install oci8
