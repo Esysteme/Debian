@@ -8,3 +8,6 @@ echo 'deb http://repo.percona.com/apt precise main' > /etc/apt/sources.list.d/pe
 echo 'deb-src http://repo.percona.com/apt precise main' >> /etc/apt/sources.list.d/percona.list
 
 apt-get update
+
+
+apt-get -y install netcat-openbsd percona-xtrabackup percona-toolkit
