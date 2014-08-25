@@ -109,6 +109,3 @@ chown mysql:mysql -R /data/mysql
 
 apt-get -y install libio-socket-inet6-perl libio-socket-ssl-perl libnet-libidn-perl libnet-ssleay-perl libsocket6-perl libterm-readkey-perl
 
-cd /tmp
-
-wget http://www.percona.com/redir/downloads/percona-toolkit/LATEST/deb/percona-toolkit_2.2.7_all.deb && dpkg -i percona-toolkit_2.2.7_all.deb && apt-get -f install && rm percona-toolkit_2.2.7_all.deb
