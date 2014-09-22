@@ -40,7 +40,7 @@ character-set-client-handshake = FALSE
 character-set-server = utf8
 collation-server = utf8_general_ci
 
-
+log_error = /data/mysql/log/error.log
 
 bind-address        = 0.0.0.0
 external-locking    = off
