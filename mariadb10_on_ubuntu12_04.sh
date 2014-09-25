@@ -4,6 +4,8 @@
 # blkid /dev/sdb1
 # UUID=5ad079e8-178f-4d11-ba1d-3b1934ac9430 /data        ext4    rw,noatime,nodiratime,nobarrier,data=ordered 0 1
 
+# galera cluster check innodb_locks_unsafe_for_binlog =1
+
 apt-get -y install python-software-properties
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
 echo "deb http://mirrors.coreix.net/mariadb/repo/10.0/ubuntu precise main" > /etc/apt/sources.list.d/mysql.list
