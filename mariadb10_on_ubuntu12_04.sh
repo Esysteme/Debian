@@ -57,6 +57,8 @@ replicate-ignore-db=information_schema
 replicate-ignore-db=performance_schema
 skip-slave-start
 
+log-slave-update
+
 #innodb
 innodb_buffer_pool_size = 4G
 innodb_flush_method     = O_DIRECT
