@@ -38,6 +38,11 @@ cat > /etc/mysql/conf.d/mariadb.cnf << EOF
 # default-character-set = utf8
 
 [mysqld]
+
+performance_schema = on
+event_scheduler = on
+
+
 character-set-client-handshake = FALSE
 character-set-server = utf8
 collation-server = utf8_general_ci
