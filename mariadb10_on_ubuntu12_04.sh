@@ -85,7 +85,7 @@ binlog_format = ROW
 
 #log
 slow_query_log_file     = /data/mysql/log/mariadb-slow.log
-long_query_time = 10
+long_query_time = 1
 
 
 # * Fine Tuning
