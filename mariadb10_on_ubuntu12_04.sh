@@ -41,6 +41,8 @@ cat > /etc/mysql/conf.d/mariadb.cnf << EOF
 
 performance_schema = on
 event_scheduler = on
+character-set-server = utf8
+open_files_limit =  65535
 
 
 character-set-client-handshake = FALSE
@@ -88,7 +90,7 @@ long_query_time = 10
 
 # * Fine Tuning
 #
-max_connections         = 500
+max_connections         = 1000
 connect_timeout         = 60
 wait_timeout            = 600
 max_allowed_packet      = 16M
