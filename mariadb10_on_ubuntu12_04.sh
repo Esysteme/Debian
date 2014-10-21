@@ -10,18 +10,25 @@ apt-get -y install python-software-properties
 
 
 release=`lsb_release -rs`
+
+
+echo "Version : "$release
+
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
 
-if [ $release -eq "14.04" ] 
+if [ $release = "14.04" ]
 then
+echo "Version : "$release
  echo "deb http://mirror.stshosting.co.uk/mariadb/repo/10.0/ubuntu trusty main" > /etc/apt/sources.list.d/mysql.list
  echo "deb-src http://mirror.stshosting.co.uk/mariadb/repo/10.0/ubuntu trusty main" >> /etc/apt/sources.list.d/mysql.list
-elif [ $release -eq "12.04" ] 
+elif [ $release = "12.04" ]
 then
+echo "Version : "$release
  echo "deb http://mirrors.coreix.net/mariadb/repo/10.0/ubuntu precise main" > /etc/apt/sources.list.d/mysql.list
  echo "deb-src http://mirrors.coreix.net/mariadb/repo/10.0/ubuntu precise main" >> /etc/apt/sources.list.d/mysql.list
+else
+echo "version not supported"
 fi
-
 
 apt-get update
 apt-get -y install mariadb-server
