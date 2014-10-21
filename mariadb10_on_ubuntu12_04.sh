@@ -16,7 +16,7 @@ if [$release -eq "14.04"] then
 
 echo "deb http://mirror.stshosting.co.uk/mariadb/repo/10.0/ubuntu trusty main" > /etc/apt/sources.list.d/mysql.list
 echo "deb-src http://mirror.stshosting.co.uk/mariadb/repo/10.0/ubuntu trusty main" >> /etc/apt/sources.list.d/mysql.list
-else if [$release -eq "12.04"] then
+elif [$release -eq "12.04"] then
 echo "deb http://mirrors.coreix.net/mariadb/repo/10.0/ubuntu precise main" > /etc/apt/sources.list.d/mysql.list
 echo "deb-src http://mirrors.coreix.net/mariadb/repo/10.0/ubuntu precise main" >> /etc/apt/sources.list.d/mysql.list
 fi
