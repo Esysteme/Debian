@@ -45,7 +45,7 @@ apt-get remove apache2-mpm-worker
 sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php5/apache2/php.ini
 sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php5/cli/php.ini
 
-sed -i 's/\/var\/www/\/home\/www/g'  /etc/apache2/sites-enabled/000-default
+sed -i 's/\/var\/www/\/data\/www/g'  /etc/apache2/sites-enabled/000-default
 
 
 a2enmod php5
@@ -57,8 +57,8 @@ service apache2 restart
 
 
 
-mkdir -p /home/www/
-cd /home/www/
+mkdir -p /data/www/
+cd /data/www/
 
 
 curl -sS https://getcomposer.org/installer | php --
