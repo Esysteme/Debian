@@ -35,11 +35,11 @@ apt-get install -y curl php5-curl php5-gd php5-mcrypt php5-mysqlnd tree iftop nm
 sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php5/apache2/php.ini
 sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php5/cli/php.ini
 
-sed -i 's/\/var\/www/\/home\/www/g'  /etc/apache2/sites-enabled/000-default.conf
+sed -i 's/\/var\/www/\/data\/www/g'  /etc/apache2/sites-enabled/000-default.conf
 
 
-mkdir -p /home/www/
-cd /home/www/
+mkdir -p /data/www/
+cd /data/www/
 
 a2enmod php5
 a2enmod rewrite
@@ -47,8 +47,8 @@ a2enmod rewrite
 service apache2 restart
 
 
-mkdir -p /home/www/
-cd /home/www/
+mkdir -p /data/www/
+cd /data/www/
 
 curl -sS https://getcomposer.org/installer | php --
 mv composer.phar /usr/local/bin/composer
