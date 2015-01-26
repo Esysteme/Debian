@@ -66,8 +66,8 @@ smbpasswd -a www-data
 
 cat >> /etc/samba/smb.conf << EOF
 
-[www]
-    path = /home/www
+[data]
+    path = /data/www
     read only = no
     browseable = yes
     guest ok = no
