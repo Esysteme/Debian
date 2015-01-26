@@ -61,7 +61,7 @@ apt-get install postfix
 
 apt-get install -y samba
 
-smbpasswd -a www-data
+smbpasswd -a alequoy
 
 
 cat >> /etc/samba/smb.conf << EOF
