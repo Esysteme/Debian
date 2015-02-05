@@ -50,7 +50,7 @@ query_cache_size=0
 query_cache_type=0
 bind-address=0.0.0.0
  
-server-id=$id_server
+server-id=$SERVERID
  
 skip-slave-start
  
