@@ -13,7 +13,7 @@ echo "Version : "$release
 echo "deb http://mirror.stshosting.co.uk/mariadb/repo/10.0/ubuntu $release main" > /etc/apt/sources.list.d/mysql.list
 echo "deb-src http://mirror.stshosting.co.uk/mariadb/repo/10.0/ubuntu $release main" >> /etc/apt/sources.list.d/mysql.list
 apt-get update
-apt-get -y install mariadb-galera-server galera rsync
+apt-get -y install mariadb-galera-server galera rsync pwgen
 
 
 
