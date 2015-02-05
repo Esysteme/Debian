@@ -1,7 +1,10 @@
+# curl -sS https://raw.githubusercontent.com/Esysteme/Debian/master/install_galera.sh | bash
+
+
 apt-get -y install python-software-properties
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
  
- 
+
 if [ $release = "14.04" ]
 then
 echo "Version : "$release
@@ -18,5 +21,4 @@ exit 1
 fi
  
 apt-get update
- 
 apt-get -y install mariadb-galera-server galera rsync
