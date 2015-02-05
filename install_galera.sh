@@ -127,6 +127,13 @@ log-error=/data/mysql/log/error.log
 [mysql]
 default-character-set=utf8
 
+[xtrabackup]
+compress
+compact
+parallel = 2
+compress_threads = 2
+rebuild_threads = 2
+
 EOF
 
 mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'xtrabackup'@'10.10.16.213' IDENTIFIED BY 'cw1IOXK7TpZHyY0Y8uqY9K9hLakR4j' WITH GRANT OPTION; flush privileges;"
