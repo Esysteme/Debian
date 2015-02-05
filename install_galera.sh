@@ -63,6 +63,13 @@ wsrep_cluster_address="$wsrep_cluster_address"
  
  
 wsrep_sst_method=rsync
+
+
+wsrep_slave_threads = 4
+wsrep_sst_method = xtrabackup-v2
+wsrep_sst_auth = xtrabackup:cw1IOXK7TpZHyY0Y8uqY9K9hLakR4j
+
+
 wsrep_provider_options="gcache.size=2G"
  
  
@@ -70,7 +77,7 @@ wsrep_provider_options="gcache.size=2G"
 innodb_file_per_table
 connect_timeout         = 60
 wait_timeout            = 3600
-innodb_buffer_pool_size = 16G
+innodb_buffer_pool_size = 1G
 innodb_flush_method     = O_DIRECT
  
 innodb_log_file_size = 64M
@@ -121,6 +128,15 @@ log-error=/data/mysql/log/error.log
 default-character-set=utf8
 
 EOF
+
+mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'xtrabackup'@'10.10.16.213' IDENTIFIED BY 'cw1IOXK7TpZHyY0Y8uqY9K9hLakR4j' WITH GRANT OPTION; flush privileges;"
+mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'xtrabackup'@'10.10.16.211' IDENTIFIED BY 'cw1IOXK7TpZHyY0Y8uqY9K9hLakR4j' WITH GRANT OPTION; flush privileges;"
+mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'xtrabackup'@'10.10.16.212' IDENTIFIED BY 'cw1IOXK7TpZHyY0Y8uqY9K9hLakR4j' WITH GRANT OPTION; flush privileges;"
+
+
+mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'10.%' IDENTIFIED BY '' WITH GRANT OPTION; flush privileges;"
+mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'dba'@'%' IDENTIFIED BY '' WITH GRANT OPTION; flush privileges;"
+mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'pmacontrol'@'%' IDENTIFIED BY '' WITH GRANT OPTION; flush privileges;"
 
 
 /etc/init.d/mysql stop
