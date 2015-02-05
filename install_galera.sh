@@ -4,8 +4,12 @@
 apt-get -y install python-software-properties
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
  
+release=`lsb_release -rs`
 
-if [ $release = "14.04" ]
+
+echo "Version : "$release
+
+if [ "$release" = "14.04" ]
 then
 echo "Version : "$release
  echo "deb http://mirror.stshosting.co.uk/mariadb/repo/10.0/ubuntu trusty main" > /etc/apt/sources.list.d/mysql.list
