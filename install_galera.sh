@@ -1,5 +1,9 @@
 # curl -sS https://raw.githubusercontent.com/Esysteme/Debian/master/install_galera.sh | bash
 
+apt-get update
+apt-get -y upgrade
+
+
 
 apt-get -y install python-software-properties
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
