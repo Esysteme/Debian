@@ -157,6 +157,6 @@ cp -pr /var/lib/mysql/* /data/mysql/data
 chown mysql:mysql -R /data/mysql
 
 
-service mysql start --wsrep-new-cluster
+--service mysql start --wsrep-new-cluster
 
 
