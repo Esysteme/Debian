@@ -71,7 +71,7 @@ wsrep_sst_method=rsync
 
 wsrep_slave_threads = 4
 wsrep_sst_method = xtrabackup-v2
-wsrep_sst_auth = xtrabackup:cw1IOXK7TpZHyY0Y8uqY9K9hLakR4j
+wsrep_sst_auth = "xtrabackup:cw1IOXK7TpZHyY0Y8uqY9K9hLakR4j"
 
 
 wsrep_provider_options="gcache.size=2G"
