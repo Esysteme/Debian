@@ -66,7 +66,7 @@ wsrep_cluster_name="$wsrep_cluster_name"
 wsrep_cluster_address="$wsrep_cluster_address"
  
  
-wsrep_sst_method=rsync
+#wsrep_sst_method=rsync
 
 
 wsrep_slave_threads = 4
@@ -138,6 +138,10 @@ parallel = 2
 compress_threads = 2
 rebuild_threads = 2
 
+[sst]
+streamfmt=xbstream
+
+
 EOF
 
 mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'xtrabackup'@'localhost' IDENTIFIED BY 'cw1IOXK7TpZHyY0Y8uqY9K9hLakR4j' WITH GRANT OPTION; flush privileges;"
@@ -157,6 +161,6 @@ cp -pr /var/lib/mysql/* /data/mysql/data
 chown mysql:mysql -R /data/mysql
 
 
---service mysql start --wsrep-new-cluster
+#service mysql start --wsrep-new-cluster
 
 
