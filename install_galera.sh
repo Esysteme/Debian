@@ -24,6 +24,10 @@ apt-get update
 apt-get -y install xtrabackup percona-toolkit
 
 
+
+apt-get install -y psmisc rsync libaio1 netcat netcat-openbsd lsb-release socat iproute htop tree screen vim curl cmake libncurses5-dev bison make gcc build-essential pv bc qpress socat netcat-traditional netcat netcat-openbsd iftop
+
+
 user=`egrep user /etc/mysql/debian.cnf | tr -d ' ' | cut -d '=' -f 2 | head -n1 | tr -d '\n'`
 passwd=`egrep password /etc/mysql/debian.cnf | tr -d ' ' | cut -d '=' -f 2 | head -n1 | tr -d '\n'`
 ip=`ifconfig eth0 | grep "inet ad" | awk -F: '{print $2}' | awk '{print $1}' | head -n1 | tr -d '\n'`
@@ -136,14 +140,11 @@ rebuild_threads = 2
 
 EOF
 
-mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'xtrabackup'@'10.10.16.213' IDENTIFIED BY 'cw1IOXK7TpZHyY0Y8uqY9K9hLakR4j' WITH GRANT OPTION; flush privileges;"
-mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'xtrabackup'@'10.10.16.211' IDENTIFIED BY 'cw1IOXK7TpZHyY0Y8uqY9K9hLakR4j' WITH GRANT OPTION; flush privileges;"
-mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'xtrabackup'@'10.10.16.212' IDENTIFIED BY 'cw1IOXK7TpZHyY0Y8uqY9K9hLakR4j' WITH GRANT OPTION; flush privileges;"
-
-
+mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'xtrabackup'@'localhost' IDENTIFIED BY 'cw1IOXK7TpZHyY0Y8uqY9K9hLakR4j' WITH GRANT OPTION; flush privileges;"
 mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'10.%' IDENTIFIED BY '' WITH GRANT OPTION; flush privileges;"
 mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'dba'@'%' IDENTIFIED BY '' WITH GRANT OPTION; flush privileges;"
 mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'pmacontrol'@'%' IDENTIFIED BY '' WITH GRANT OPTION; flush privileges;"
+mysql -pzeb33tln -e "GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION; flush privileges;"
 
 
 /etc/init.d/mysql stop
