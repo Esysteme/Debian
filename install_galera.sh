@@ -47,7 +47,12 @@ loose-default-character-set=utf8
  
 [mysqld]
 #mysql settings
- 
+
+
+auto_increment_increment=1
+auto_increment_offset=3
+concurrent_insert = AUTO
+
 log-slave-updates=1
 default-storage-engine=innodb
 query_cache_size=0
@@ -62,19 +67,21 @@ datadir = /data/mysql/data
 #galera settings
 wsrep_provider=/usr/lib/galera/libgalera_smm.so
 wsrep_cluster_name="$wsrep_cluster_name"
-
+wsrep_node_address="$wsrep_cluster_name"
 wsrep_cluster_address="$wsrep_cluster_address"
  
- 
+
+
 #wsrep_sst_method=rsync
 
 
 wsrep_slave_threads = 4
 wsrep_sst_method = xtrabackup-v2
 wsrep_sst_auth = "xtrabackup:cw1IOXK7TpZHyY0Y8uqY9K9hLakR4j"
-
-
 wsrep_provider_options="gcache.size=2G"
+
+wsrep_replicate_myisam= ON
+
  
  
 #innoDB
@@ -88,7 +95,8 @@ innodb_log_file_size = 64M
 innodb_log_buffer_size = 8M
 innodb_flush_log_at_trx_commit = 2
 innodb_autoinc_lock_mode=2
- 
+
+innodb_data_file_path= "ibdata1:100M:autoextend"
  
 #for master
  
@@ -100,8 +108,8 @@ max_binlog_size         = 1G
 expire_logs_days        = 10
  
  
-sync_binlog=1
- 
+sync_binlog=0
+skip_name_resolve=ON
  
 sort_buffer_size        = 10M
 bulk_insert_buffer_size = 16M
