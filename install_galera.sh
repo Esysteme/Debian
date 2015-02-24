@@ -110,7 +110,16 @@ expire_logs_days        = 10
  
 sync_binlog=0
 skip_name_resolve=ON
- 
+memlock=0
+sysdate_is_now=1
+max_connections=200
+thread_cache_size=512
+query_cache_type = 0
+query_cache_size = 0
+table_open_cache=1024
+lower_case_table_names=0
+
+
 sort_buffer_size        = 10M
 bulk_insert_buffer_size = 16M
 tmp_table_size          = 64M
