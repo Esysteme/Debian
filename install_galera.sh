@@ -62,6 +62,8 @@ bind-address=0.0.0.0
 server-id=$SERVERID
  
 skip-slave-start
+explicit_defaults_for_timestamp = 1
+ 
  
 datadir = /data/mysql/data
 #galera settings
