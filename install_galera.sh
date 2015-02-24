@@ -135,6 +135,7 @@ max_connections = 500
 open_files_limit =  65535
  
 log-error=/data/mysql/log/error.log
+log_warnings=2
 
 [mysql]
 default-character-set=utf8
