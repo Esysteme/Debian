@@ -8,7 +8,6 @@
 
 apt-get -y install python-software-properties
 
-
 distrib=`lsb_release -is`
 release=`lsb_release -rs`
 codename=`lsb_release -cs`
@@ -17,8 +16,6 @@ echo "Version : "$distrib
 echo "Version : "$release
 
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-
-
 
 if [ $distrib = "Ubuntu" ]
 then
@@ -36,18 +33,13 @@ then
     echo "version of "$release" not supported"
     exit
     fi
-
 elif [ $distrib = "Debian" ]
-     echo "deb http://mirrors.coreix.net/mariadb/repo/10.0/debian $codename main" > /etc/apt/sources.list.d/mysql.list
-     echo "deb-src http://mirrors.coreix.net/mariadb/repo/10.0/debian $codename main" >> /etc/apt/sources.list.d/mysql.list
-
+    echo "deb http://mirrors.coreix.net/mariadb/repo/10.0/debian $codename main" > /etc/apt/sources.list.d/mysql.list
+    echo "deb-src http://mirrors.coreix.net/mariadb/repo/10.0/debian $codename main" >> /etc/apt/sources.list.d/mysql.list
 else
     echo "version of "$distrib" not supported"
     exit
 fi
-
-
-
 
 apt-get update
 apt-get -y install mariadb-server
