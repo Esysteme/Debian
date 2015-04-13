@@ -13,7 +13,8 @@ release=`lsb_release -rs`
 codename=`lsb_release -cs`
 
 echo "Version : "$distrib
-echo "Version : "$release
+echo "Release : "$release
+echo "Code name : "$codename
 
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
 
@@ -34,6 +35,7 @@ then
     exit
     fi
 elif [ $distrib = "Debian" ]
+then
     echo "deb http://mirrors.coreix.net/mariadb/repo/10.0/debian $codename main" > /etc/apt/sources.list.d/mysql.list
     echo "deb-src http://mirrors.coreix.net/mariadb/repo/10.0/debian $codename main" >> /etc/apt/sources.list.d/mysql.list
 else
