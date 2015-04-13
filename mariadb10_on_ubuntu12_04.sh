@@ -28,6 +28,7 @@ echo "Version : "$release
  echo "deb-src http://mirrors.coreix.net/mariadb/repo/10.0/ubuntu precise main" >> /etc/apt/sources.list.d/mysql.list
 else
 echo "version not supported"
+exit
 fi
 
 apt-get update
