@@ -35,8 +35,10 @@ apt-get install -y curl php5-curl php5-gd php5-mcrypt php5-mysqlnd tree iftop nm
 sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php5/apache2/php.ini
 sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php5/cli/php.ini
 
-sed -i 's/\/var\/www/\/data\/www/g'  /etc/apache2/sites-enabled/000-default.conf
+sed -i 's/\/var\/www\/html/\/data\/www/g'  /etc/apache2/sites-enabled/000-default.conf
 
+
+sed -i 's/\/var\/www/\/data\/www/g'  /etc/apache2/apache2.conf
 
 mkdir -p /data/www/
 cd /data/www/
