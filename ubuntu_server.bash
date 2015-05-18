@@ -13,7 +13,7 @@ apt-get update
 
 apt-get install -y php5 apache2 php-pear
 
-apt-get install -y graphiz
+apt-get install -y graphviz
 
 #install mariadb
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
