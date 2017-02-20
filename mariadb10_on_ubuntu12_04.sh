@@ -50,7 +50,7 @@ apt-get -y install mariadb-server
 
 user=`egrep user /etc/mysql/debian.cnf | tr -d ' ' | cut -d '=' -f 2 | head -n1 | tr -d '\n'`
 passwd=`egrep password /etc/mysql/debian.cnf | tr -d ' ' | cut -d '=' -f 2 | head -n1 | tr -d '\n'`
-ip=`ifconfig eth0 | grep "inet ad" | awk -F: '{print $2}' | awk '{print $1}' | head -n1 | tr -d '\n'`
+ip=`ifconfig | grep -Eo 'inet (a[d]{1,2}r:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
 crc32=`mysql -u $user -p$passwd -e "SELECT CRC32('$ip')"`
 id_server=`echo -n $crc32 | cut -d ' ' -f 2 | tr -d '\n'`
 
