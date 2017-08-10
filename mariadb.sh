@@ -53,7 +53,7 @@ function purge {
  apt-get clean
 }
 
-if [ ${purge} == "true" ];
+if [ "${purge}" = "true" ];
 then
   purge
 fi
@@ -145,12 +145,10 @@ deb-src http://ftp.igh.cnrs.fr/pub/mariadb/repo/${VERSION}/${DISTRIB} ${OS} main
 EOF
 
 
-
-
 mytest apt-get -qq update
 mytest apt-get -qq -y upgrade
 
-mytest apt-get -qq install -y software-properties-common
+mytest apt-get -qq -y install software-properties-common
 
 
 export DEBIAN_FRONTEND=noninteractive
@@ -158,8 +156,6 @@ export DEBIAN_FRONTEND=noninteractive
 #debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password_again password 'PASSWORD'"
 
 mytest apt-get -qq -y install mariadb-server-${VERSION}
-
-
 
 
 
@@ -174,7 +170,6 @@ done
 
 
 mysql -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY '$PASSWORD';flush privileges; "
-
 
 
 echo -e "[client]
