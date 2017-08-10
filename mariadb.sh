@@ -156,6 +156,9 @@ done
 
 mysql -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY '$PASSWORD';flush privileges; "
 
+
+exit1;
+
 echo -e "[client]
 user=root
 password='$PASSWORD'" > /root/.my.cnf
