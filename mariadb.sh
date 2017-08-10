@@ -142,11 +142,11 @@ export DEBIAN_FRONTEND=noninteractive
 debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password password 'PASSWORD'"
 debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password_again password 'PASSWORD'"
 
-mytest apt-get -y install mariadb-server-${VERSION}
+mytest apt-get -qq -y install mariadb-server-${VERSION}
 
 
 
-exit1;
+exit 1;
 
 
 mytest mysql -e "GRANT ALL ON *.* TO dba@'%' IDENTIFIED BY '$PASSWORD'; "
