@@ -2,9 +2,46 @@
 
 /* mariadb 10.2 */
 
-PASSWORD=$1
-CLUSTER_NAME=$2
-CLUSTER_MEMBER=$3
+
+while test $# -gt 0; do
+        case "$1" in
+                -h|--help)
+                        echo "$package - attempt to capture frames"
+                        echo " "
+                        echo "$package [options] application [arguments]"
+                        echo " "
+                        echo "options:"
+                        echo "-h, --help                show brief help"
+                        echo "-a, --action=ACTION       specify an action to use"
+                        echo "-o, --output-dir=DIR      specify a directory to store output in"
+                        exit 0
+                        ;;
+                -c|--cluster-name)
+                        CLUSTER_NAME=$1
+                        ;;
+                -p|--password)
+                        PAASWORD=$1
+                        ;;
+                        
+                -m|--cluster-member)
+                       CLUSTER_MEMBER=$1
+                       ;;
+                        
+                *)
+                        break
+                        ;;
+        esac
+done
+
+
+if [ -z ${var+x} ]; 
+then 
+echo "PASSWORD SET"; 
+else 
+echo "option -p required"
+echo "for help -h"
+exit 0;
+fi
 
 apt-get update
 apt-get -y upgrade
