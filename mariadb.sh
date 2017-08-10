@@ -9,6 +9,7 @@ PASSWORD=''
 SSD='false'
 SPIDER='false'
 CLUSTER='OFF'
+PURGE='false'
 
 while getopts 'hp:n:m:xv:sgc' flag; do
   case "${flag}" in
@@ -25,6 +26,7 @@ while getopts 'hp:n:m:xv:sgc' flag; do
         echo "-s                      specify the hard drive are SSD"
         echo "-g                      specify to activate and make good set up for Spider"
         echo "-c                      set galera cluster ON"
+        echo "-u                      [WARNING] purge previous version of MySQL / MariaDB"
         
         exit 0
     ;;
@@ -36,6 +38,7 @@ while getopts 'hp:n:m:xv:sgc' flag; do
     s) SSD='true';;
     g) SPIDER='true';;
     c) CLUSTER='ON';;
+    u) PURGE='true';;
     *) error "Unexpected option ${flag}" ;;
   esac
 done
@@ -50,8 +53,11 @@ function purge {
  apt-get clean
 }
 
+if [ ${purge} == "true" ]
+then;
+  purge
+fi;
 
-purge
 
 function mytest {
     "$@"
