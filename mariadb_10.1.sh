@@ -6,13 +6,12 @@ while test $# -gt 0; do
         case "$1" in
                 -h|--help)
                         echo "[pmacli] - auto install mariadb"
-                        echo " "
-                        echo "$package [options] application [arguments]"
+                        echo "example : ./mariadb_10.1.sh -p my_password -c Esysteme -m 127.0.0.1,127.0.0.2,127.0.0.3                        
                         echo " "
                         echo "options:"
-                        echo "-h, --help                show brief help"
-                        echo "-a, --action=ACTION       specify an action to use"
-                        echo "-o, --output-dir=DIR      specify a directory to store output in"
+                        echo "-p, --passwordpPASSWORD                   specify root password for mariadb"
+                        echo "-c, --clustername=name                    specify the name of galera cluster"
+                        echo "-m, --cluster-member=ip1,ip2,ip3          specify the list of member of cluster"
                         exit 0
                         ;;
                 -c|--cluster-name)
@@ -33,6 +32,8 @@ while test $# -gt 0; do
 done
 
 
+echo "TEST"
+
 if [ -z ${PASSWORD} ]; 
 then 
 echo "option -p required"
@@ -46,6 +47,7 @@ echo "PASSWORD = $PASSWORD"
 echo "CLUSTER_NAME = $CLUSTER_NAME"
 echo "CLUSTER_MEMBER = $CLUSTER_MEMBER"
 
+echo "TEST2"
 
 apt-get update
 apt-get -y upgrade
