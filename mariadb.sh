@@ -53,10 +53,10 @@ function purge {
  apt-get clean
 }
 
-if [ ${purge} == "true" ]
-then;
+if [ ${purge} == "true" ];
+then
   purge
-fi;
+fi
 
 
 function mytest {
