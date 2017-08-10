@@ -144,6 +144,11 @@ debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password
 
 mytest apt-get -y install mariadb-server-${VERSION}
 
+
+
+exit1;
+
+
 mytest mysql -e "GRANT ALL ON *.* TO dba@'%' IDENTIFIED BY '$PASSWORD'; "
 
 IFS=',' read -r -a array <<< "$CLUSTER_MEMBER"
@@ -157,7 +162,6 @@ done
 mysql -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY '$PASSWORD';flush privileges; "
 
 
-exit1;
 
 echo -e "[client]
 user=root
@@ -165,7 +169,7 @@ password='$PASSWORD'" > /root/.my.cnf
 
 version=`mysql -u root -p$PASSWORD -se "SELECT VERSION()" | sed -n 1p | grep -Po '10\.([0-9]{1,2})'`
 
-case "$version" in
+case "$VERSION" in
     "10.1")
         apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
         apt-get -qq -y install mariadb-plugin-tokudb
@@ -180,7 +184,7 @@ case "$version" in
         ;;
 
     *)
-        echo "This version is not supported : '$code'"
+        echo "This version is not supported : '$VERSION'"
         ;; 
 esac
 
