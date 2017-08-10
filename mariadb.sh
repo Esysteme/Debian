@@ -58,9 +58,13 @@ echo "CLUSTER_MEMBER = $CLUSTER_MEMBER"
 wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF1656F24C74CD1D8" | apt-key add -
 wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xcbcb082a1bb943db" | apt-key add -
 
-os=`lsb_release -cs`
+OS=`lsb_release -cs`
 
-case "$version" in
+DISTRIB=`lsb_release -si`
+DISTRIB=`echo "$DISTRIB" | tr '[:upper:]' '[:lower:]'`
+
+
+case "$OS" in
     "jessie")
         break;
         ;;
@@ -72,16 +76,30 @@ case "$version" in
         break;
         ;;
     *)
-        echo "This version is not supported : '$os'"
+        echo "This version is not supported : '$OS'"
         exit 1;
         ;; 
 esac
 
 
+case "$DISTRIB" in
+    "debian")
+        break;
+        ;;
+        
+    "ubuntu")
+        break;
+        ;;
+
+    *)
+        echo "This distribution GNU/Linux is not supported : '$DISTRIB'"
+        exit 1;
+        ;; 
+esac
 
 
-apt-get update
-apt-get -y upgrade
+apt-get -q update
+apt-get -q -y upgrade
 
 apt-get install -y software-properties-common
 
@@ -95,7 +113,9 @@ do
   #gpg --keyserver subkeys.pgp.net --recv $key && gpg --export --armor $key | apt-key add -; 
 done
 
-add-apt-repository "deb [arch=amd64] http://ftp.igh.cnrs.fr/pub/mariadb/repo/$VERSION/$os stretch main"
+
+
+add-apt-repository "deb [arch=amd64] http://ftp.igh.cnrs.fr/pub/mariadb/repo/$VERSION/$DISTRIB $OS main"
 apt-get update
 
 export DEBIAN_FRONTEND=noninteractive
