@@ -53,7 +53,7 @@ function purge {
  apt-get clean
 }
 
-if [ "${purge}" = "true" ];
+if [ "${PURGE}" = "true" ];
 then
   purge
 fi
