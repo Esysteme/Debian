@@ -41,11 +41,24 @@ while getopts 'hp:n:m:xv:sg' flag; do
 done
 
 
+
+function purge {
+ rm -rvf /etc/mysql/*
+ apt-get -qq -y purge $(dpkg -l | grep mariadb | cut -d ' ' -f 3)
+ apt-get -qq -y purge $(dpkg -l | grep mysql | cut -d ' ' -f 3)
+ apt-get autoremove
+ apt-get clean
+}
+
+
+purge
+
 function mytest {
     "$@"
     local status=$?
     if [ $status -ne 0 ]; then
         echo "error with $1" >&2
+        exit 1;
     fi
     return $status
 }
@@ -67,9 +80,6 @@ echo "CLUSTER_NAME = $CLUSTER_NAME"
 echo "CLUSTER_MEMBER = $CLUSTER_MEMBER"
 echo "VERSION = $VERSION"
 
-#import mariadb key
-mytest wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF1656F24C74CD1D8" | apt-key add -
-mytest wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xcbcb082a1bb943db" | apt-key add -
 
 OS=`lsb_release -cs`
 
@@ -104,10 +114,11 @@ esac
 echo "DISTRIB = $DISTRIB"
 echo "OS = $OS"
 
-mytest apt-get -qq update
-mytest apt-get -qq -y upgrade
+#import mariadb key
 
-mytest apt-get -qq install -y software-properties-common
+echo "Import public key"
+mytest wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF1656F24C74CD1D8" | apt-key add -
+mytest wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xcbcb082a1bb943db" | apt-key add -
 
 
 #to get missing keys
@@ -128,8 +139,13 @@ deb-src http://ftp.igh.cnrs.fr/pub/mariadb/repo/${VERSION}/${DISTRIB} ${OS} main
 EOF
 
 
-#add-apt-repository "deb [arch=amd64] http://ftp.igh.cnrs.fr/pub/mariadb/repo/$VERSION/$DISTRIB $OS main"
+
+
 mytest apt-get -qq update
+mytest apt-get -qq -y upgrade
+
+mytest apt-get -qq install -y software-properties-common
+
 
 export DEBIAN_FRONTEND=noninteractive
 debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password password 'PASSWORD'"
