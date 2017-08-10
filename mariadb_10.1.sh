@@ -425,6 +425,31 @@ apt-get install -y tree locate screen iftop htop curl git unzip atop nmap
 
 apt-get install -y apache2
 
+
+
+case "$code" in
+    "stretch")
+
+        ;;
+    "jessie")
+                echo ' ' >> /etc/apt/sources.list
+                echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list
+                echo 'deb-src http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list
+
+                wget http://www.dotdeb.org/dotdeb.gpg
+                apt-key add dotdeb.gpg
+
+                rm dotdeb.gpg
+
+        ;;
+
+
+    *)
+        echo "This version is not supported : '$code'"
+        ;; 
+esac
+
+
 echo ' ' >> /etc/apt/sources.list
 echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list
 echo 'deb-src http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list
