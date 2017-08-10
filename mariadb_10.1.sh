@@ -32,7 +32,7 @@ IFS=',' read -r -a array <<< "$CLUSTER_MEMBER"
 
 for server in "${array[@]}"
 do
-    mysql -e "GRANT ALL ON *.* TO sst@'$server' IDENTIFIED BY '$PASSWORD';" 
+    mysql -e "GRANT ALL ON *.* TO sst@'$server' IDENTIFIED BY 'QSEDWGRg133';" 
 done
 
 
@@ -294,7 +294,7 @@ wsrep_node_name=$hostname
 wsrep_gtid_mode=ON
 
 wsrep_sst_method = xtrabackup-v2
-wsrep_sst_auth = 'sst:$PASSWORD'
+wsrep_sst_auth = 'sst:QSEDWGRg133'
 
 binlog_format=row
 default_storage_engine=InnoDB
