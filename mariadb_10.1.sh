@@ -6,7 +6,7 @@ while test $# -gt 0; do
         case "$1" in
                 -h|--help)
                         echo "[pmacli] - auto install mariadb"
-                        echo "example : ./mariadb_10.1.sh -p my_password -c Esysteme -m 127.0.0.1,127.0.0.2,127.0.0.3                        
+                        echo "example : ./mariadb_10.1.sh -p my_password -c Esysteme -m 127.0.0.1,127.0.0.2,127.0.0.3"                        
                         echo " "
                         echo "options:"
                         echo "-p, --passwordpPASSWORD                   specify root password for mariadb"
