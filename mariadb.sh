@@ -136,7 +136,7 @@ EOF
 
 
 #add-apt-repository "deb [arch=amd64] http://ftp.igh.cnrs.fr/pub/mariadb/repo/$VERSION/$DISTRIB $OS main"
-apt-get update
+mytest apt-get -qq update
 
 export DEBIAN_FRONTEND=noninteractive
 debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password password 'PASSWORD'"
