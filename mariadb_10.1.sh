@@ -1,15 +1,16 @@
 #debian
-
 #mariadb 10.2
-
 
 VERSION='10.1'
 CLUSTER_NAME='Esysteme'
 CLUSTER_MEMBER=''
 PHP='false'
 PASSWORD=''
+SSD='false'
+SPIDER='false'
+CLUSTER='OFF'
 
-while getopts 'hp:n:m:x' flag; do
+while getopts 'hp:n:m:xv:sg' flag; do
   case "${flag}" in
     h) 
         echo "auto install mariadb"
@@ -19,6 +20,12 @@ while getopts 'hp:n:m:x' flag; do
         echo "-p PASSWORD             specify root password for mariadb"
         echo "-n name                 specify the name of galera cluster"
         echo "-m ip1,ip2,ip3          specify the list of member of cluster"
+        echo "-x                      Install last version of PHP"
+        echo "-v 10.1                 specify the version of MariaDB/MySQL"
+        echo "-s                      specify the hard drive are SSD"
+        echo "-g                      specify to activate and make good set up for Spider"
+        echo "-c                      set galera cluster ON"
+        
         exit 0
     ;;
     p) PASSWORD="${OPTARG}" ;;
@@ -26,6 +33,9 @@ while getopts 'hp:n:m:x' flag; do
     m) CLUSTER_MEMBER="${OPTARG}" ;;
     x) PHP='true' ;;
     v) VERSION="${OPTARG}" ;;
+    s) SSD='true';;
+    g) SPIDER='true';;
+    c) CLUSTER='ON';;
     *) error "Unexpected option ${flag}" ;;
   esac
 done
@@ -34,11 +44,9 @@ done
 
 if [ -z ${PASSWORD} ]; 
 then 
-echo "option -p required (password)"
-echo "for help -h"
-exit 0;
-else 
-echo "PASSWORD SET"; 
+  echo "option -p required (password)"
+  echo "for help -h"
+  exit 0;
 fi
 
 echo "PASSWORD = $PASSWORD"
@@ -46,18 +54,44 @@ echo "CLUSTER_NAME = $CLUSTER_NAME"
 echo "CLUSTER_MEMBER = $CLUSTER_MEMBER"
 
 
+#import mariadb key
+wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF1656F24C74CD1D8" | apt-key add -
+wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xcbcb082a1bb943db" | apt-key add -
+
+os=`lsb_release -cs`
+
+case "$version" in
+    "jessie")
+        ;;
+    "stretch")
+        ;;
+    "xenial")
+        ;;
+    *)
+        echo "This version is not supported : '$os'"
+        exit 1;
+        ;; 
+esac
+
+
+
+
 apt-get update
 apt-get -y upgrade
 
 apt-get install -y software-properties-common
-apt-key adv --recv-keys --keyserver keyserver.ubuntu.com F1656F24C74CD1D8
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8B48AD6246925553
+
 
 #to get missing keys
-apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "\nProcessing key: $key"; gpg --keyserver subkeys.pgp.net --recv $key && sudo gpg --export --armor $key | apt-key add -; done
+apt-get update 2> /tmp/keymissing; 
+for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); 
+do 
+  echo -e "\nProcessing key: $key"; 
+  wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=$key" | apt-key add -
+  #gpg --keyserver subkeys.pgp.net --recv $key && gpg --export --armor $key | apt-key add -; 
+done
 
-
-add-apt-repository "deb [arch=amd64] http://ftp.igh.cnrs.fr/pub/mariadb/repo/$VERSION/debian stretch main"
+add-apt-repository "deb [arch=amd64] http://ftp.igh.cnrs.fr/pub/mariadb/repo/$VERSION/$os stretch main"
 apt-get update
 
 export DEBIAN_FRONTEND=noninteractive
@@ -83,23 +117,23 @@ user=root
 password='$PASSWORD'" > /root/.my.cnf
 
 
-code=`lsb_release -cs`
+
 
 
 version=`mysql -u root -p$PASSWORD -se "SELECT VERSION()" | sed -n 1p | grep -Po '10\.([0-9]{1,2})'`
 
 case "$version" in
     "10.1")
-        apt-get -q -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
-        apt-get -q -y install mariadb-plugin-tokudb
+        apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
+        apt-get -qq -y install mariadb-plugin-tokudb
         ;;
     "10.2")
-        apt-get -q -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
-        apt-get -q -y install mariadb-plugin-myrocks
+        apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
+        apt-get -qq -y install mariadb-plugin-myrocks
         ;;
     "10.3")
-        apt-get -q -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
-        apt-get -q -y install mariadb-plugin-myrocks
+        apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
+        apt-get -qq -y install mariadb-plugin-myrocks
         ;;
 
     *)
@@ -135,8 +169,8 @@ cp -pr /var/lib/mysql/* /data/mysql/data
 chown mysql:mysql -R /data/mysql
 
 # install xtrabackup
-wget https://repo.percona.com/apt/percona-release_0.1-4.$(lsb_release -sc)_all.deb
-dpkg -q -i percona-release_0.1-4.$(lsb_release -sc)_all.deb
+wget https://repo.percona.com/apt/percona-release_0.1-4.${os}_all.deb
+dpkg -q -i percona-release_0.1-4.${os}_all.deb
 
 apt-get -q update
 apt-get -q install -y percona-xtrabackup-24
@@ -325,7 +359,7 @@ event-scheduler = ON
 #
 [galera]
 # Mandatory settings
-wsrep_on=OFF
+wsrep_on=$CLUSTER
 wsrep_cluster_name='$CLUSTER_NAME'
 wsrep_provider=/usr/lib/galera/libgalera_smm.so
 wsrep_cluster_address=gcomm://$CLUSTER_MEMBER
@@ -388,7 +422,7 @@ apt-get install -q -y apache2
 
 
 
-case "$code" in
+case "$os" in
     "stretch")
 
         ;;
@@ -406,19 +440,10 @@ case "$code" in
 
 
     *)
-        echo "This version is not supported : '$code'"
+        echo "This version is not supported : '$os'"
         ;; 
 esac
 
-
-echo ' ' >> /etc/apt/sources.list
-echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list
-echo 'deb-src http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list
-
-wget http://www.dotdeb.org/dotdeb.gpg
-apt-key add dotdeb.gpg
-
-rm dotdeb.gpg
 
 apt-get -q update
 
@@ -427,15 +452,13 @@ apt-get -q install -y php7.0 php7.0-mysql php7.0-json php7.0-gd php7.0-geoip php
 
 sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php/7.0/apache2/php.ini
 sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php/7.0/cli/php.ini
-
 sed -i 's/\/var\/www\/html/\/data\/www/g'  /etc/apache2/sites-enabled/000-default.conf
-
 sed -i 's/\/var\/www/\/data\/www/g'  /etc/apache2/apache2.conf
 
 mkdir -p /data/www/
 cd /data/www/
 
-apt-get -y install libapache2-mod-php7.0
+apt-get -q -y install libapache2-mod-php7.0
 
 a2enmod php7.0
 a2enmod rewrite
