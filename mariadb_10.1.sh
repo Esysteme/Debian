@@ -1,6 +1,6 @@
-# debian
+#debian
 
-# mariadb 10.2
+#mariadb 10.2
 
 while test $# -gt 0; do
         case "$1" in
@@ -54,7 +54,7 @@ apt-get install -y software-properties-common
 apt-key adv --recv-keys --keyserver keyserver.ubuntu.com F1656F24C74CD1D8
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8B48AD6246925553
 
-# to get missing keys
+#to get missing keys
 apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "\nProcessing key: $key"; gpg --keyserver subkeys.pgp.net --recv $key && sudo gpg --export --armor $key | apt-key add -; done
 
 
@@ -369,7 +369,7 @@ EOF
 
 /etc/init.d/mysql start
 
-# vim 
+#vim 
 
 apt-get -y install vim
 
@@ -383,7 +383,7 @@ apt-get install -y tree locate screen iftop htop curl git unzip atop nmap
 
 
 
-# install php 
+#install php 
 
 apt-get install -y apache2
 
