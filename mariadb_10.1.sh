@@ -2,11 +2,10 @@
 
 /* mariadb 10.2 */
 
-
 while test $# -gt 0; do
         case "$1" in
                 -h|--help)
-                        echo "$package - attempt to capture frames"
+                        echo "[pmacli] - auto install mariadb"
                         echo " "
                         echo "$package [options] application [arguments]"
                         echo " "
@@ -20,7 +19,7 @@ while test $# -gt 0; do
                         CLUSTER_NAME=$1
                         ;;
                 -p|--password)
-                        PAASWORD=$1
+                        PASSWORD=$1
                         ;;
                         
                 -m|--cluster-member)
@@ -34,14 +33,19 @@ while test $# -gt 0; do
 done
 
 
-if [ -z ${var+x} ]; 
+if [ -z ${PASSWORD} ]; 
 then 
-echo "PASSWORD SET"; 
-else 
 echo "option -p required"
 echo "for help -h"
 exit 0;
+else 
+echo "PASSWORD SET"; 
 fi
+
+echo "PASSWORD = $PASSWORD"
+echo "CLUSTER_NAME = $CLUSTER_NAME"
+echo "CLUSTER_MEMBER = $CLUSTER_MEMBER"
+
 
 apt-get update
 apt-get -y upgrade
