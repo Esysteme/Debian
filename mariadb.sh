@@ -68,8 +68,8 @@ echo "CLUSTER_MEMBER = $CLUSTER_MEMBER"
 echo "VERSION = $VERSION"
 
 #import mariadb key
-mytest wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF1656F24C74CD1D8" | apt-key add -
-mytest wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xcbcb082a1bb943db" | apt-key add -
+mytest wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF1656F24C74CD1D8" | apt-key add -
+mytest wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xcbcb082a1bb943db" | apt-key add -
 
 OS=`lsb_release -cs`
 
@@ -106,6 +106,10 @@ case "$DISTRIB" in
         exit 1;
         ;; 
 esac
+
+
+echo "DISTRIB = $DISTRIB"
+echo "OS = $OS"
 
 mytest apt-get -qq update
 mytest apt-get -qq -y upgrade
