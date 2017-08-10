@@ -39,7 +39,7 @@ while getopts 'hp:n:m:xv:sgcu' flag; do
     g) SPIDER='true';;
     c) CLUSTER='ON';;
     u) PURGE='true';;
-    *) error "Unexpected option ${flag}" ;;
+    *) echo "Unexpected option ${flag}" ;;
   esac
 done
 
