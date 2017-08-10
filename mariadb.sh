@@ -98,24 +98,31 @@ case "$DISTRIB" in
 esac
 
 
-apt-get -q update
-apt-get -q -y upgrade
+apt-get -qq update
+apt-get -qq -y upgrade
 
-apt-get install -y software-properties-common
+apt-get -qq install -y software-properties-common
 
 
 #to get missing keys
-apt-get update 2> /tmp/keymissing; 
+apt-get -qq update 2> /tmp/keymissing; 
 for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); 
 do 
   echo -e "\nProcessing key: $key"; 
-  wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=$key" | apt-key add -
+  wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=$key" | apt-key add -
   #gpg --keyserver subkeys.pgp.net --recv $key && gpg --export --armor $key | apt-key add -; 
 done
 
 
+cat > /etc/apt/sources.list.d/mariadb.list < EOF
+# MariaDB $VERSION repository list - created 2017-08-10 22:02 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+deb [arch=i386,amd64] http://ftp.igh.cnrs.fr/pub/mariadb/repo/${VERSION}/${DISTRIB} ${OS} main
+deb-src http://ftp.igh.cnrs.fr/pub/mariadb/repo/${VERSION}/${DISTRIB} ${OS} main
+EOF;
 
-add-apt-repository "deb [arch=amd64] http://ftp.igh.cnrs.fr/pub/mariadb/repo/$VERSION/$DISTRIB $OS main"
+
+#add-apt-repository "deb [arch=amd64] http://ftp.igh.cnrs.fr/pub/mariadb/repo/$VERSION/$DISTRIB $OS main"
 apt-get update
 
 export DEBIAN_FRONTEND=noninteractive
@@ -139,10 +146,6 @@ mysql -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY '$PASSWORD';flush p
 echo -e "[client]
 user=root
 password='$PASSWORD'" > /root/.my.cnf
-
-
-
-
 
 version=`mysql -u root -p$PASSWORD -se "SELECT VERSION()" | sed -n 1p | grep -Po '10\.([0-9]{1,2})'`
 
@@ -194,10 +197,10 @@ chown mysql:mysql -R /data/mysql
 
 # install xtrabackup
 wget https://repo.percona.com/apt/percona-release_0.1-4.${os}_all.deb
-dpkg -q -i percona-release_0.1-4.${os}_all.deb
+dpkg -i percona-release_0.1-4.${os}_all.deb
 
-apt-get -q update
-apt-get -q install -y percona-xtrabackup-24
+apt-get -qq update
+apt-get -qq install -y percona-xtrabackup-24
 
 cat > /etc/mysql/conf.d/99-esysteme.cnf << EOF
 
@@ -428,14 +431,14 @@ EOF
 
 #vim 
 
-apt-get -q -y install vim
+apt-get -qq -y install vim
 
 echo -e "syntax on" > /root/.vimrc
 
 
 /* others */
 
-apt-get install -q -y tree locate screen iftop htop curl git unzip atop nmap
+apt-get -qq install -y tree locate screen iftop htop curl git unzip atop nmap
 
 
 
@@ -445,8 +448,9 @@ apt-get install -q -y tree locate screen iftop htop curl git unzip atop nmap
 
 if [ "$PHP" = "true" ]
 then
-
-  apt-get install -q -y apache2
+  echo "Installation of PHP"
+  
+  apt-get -qq install -y apache2
 
 
 
@@ -473,9 +477,9 @@ then
   esac
 
 
-  apt-get -q update
+  apt-get -qq update
 
-  apt-get -q install -y php7.0 php7.0-mysql php7.0-json php7.0-gd php7.0-geoip php7.0-dba php7.0-curl  php7.0-cli php7.0-common php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-memcached php7.0-xml
+  apt-get -qq install -y php7.0 php7.0-mysql php7.0-json php7.0-gd php7.0-geoip php7.0-dba php7.0-curl  php7.0-cli php7.0-common php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-memcached php7.0-xml
 
 
   sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php/7.0/apache2/php.ini
