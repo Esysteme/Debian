@@ -77,20 +77,13 @@ DISTRIB=`lsb_release -si`
 DISTRIB=`echo "$DISTRIB" | tr '[:upper:]' '[:lower:]'`
 
 case "$OS" in
-    "jessie")
-      echo "OS : $OS"
-        ;;
-        
-    "stretch")
-      echo "OS : $OS"
-        ;;
-    "xenial")
-      echo "OS : $OS"
-        ;;
+    "jessie")      ;;
+    "stretch")     ;;
+    "xenial")      ;;
     *)
         echo "This version is not supported : '$OS'"
         exit 1;
-        ;; 
+     ;; 
 esac
 
 
@@ -146,7 +139,6 @@ mytest apt-get -qq -y install mariadb-server-${VERSION}
 
 
 
-exit 1;
 
 
 mytest mysql -e "GRANT ALL ON *.* TO dba@'%' IDENTIFIED BY '$PASSWORD'; "
