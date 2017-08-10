@@ -154,8 +154,8 @@ mytest apt-get -qq install -y software-properties-common
 
 
 export DEBIAN_FRONTEND=noninteractive
-debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password password 'PASSWORD'"
-debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password_again password 'PASSWORD'"
+#debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password password 'PASSWORD'"
+#debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password_again password 'PASSWORD'"
 
 mytest apt-get -qq -y install mariadb-server-${VERSION}
 
