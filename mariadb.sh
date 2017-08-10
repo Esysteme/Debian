@@ -41,6 +41,16 @@ while getopts 'hp:n:m:xv:sg' flag; do
 done
 
 
+function mytest {
+    "$@"
+    local status=$?
+    if [ $status -ne 0 ]; then
+        echo "error with $1" >&2
+    fi
+    return $status
+}
+
+
 
 if [ -z ${PASSWORD} ]; 
 then 
@@ -55,8 +65,8 @@ echo "CLUSTER_MEMBER = $CLUSTER_MEMBER"
 
 
 #import mariadb key
-wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF1656F24C74CD1D8" | apt-key add -
-wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xcbcb082a1bb943db" | apt-key add -
+mytest wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF1656F24C74CD1D8" | apt-key add -
+mytest wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xcbcb082a1bb943db" | apt-key add -
 
 OS=`lsb_release -cs`
 
@@ -98,10 +108,10 @@ case "$DISTRIB" in
 esac
 
 
-apt-get -qq update
-apt-get -qq -y upgrade
+mytest apt-get -qq update
+mytest apt-get -qq -y upgrade
 
-apt-get -qq install -y software-properties-common
+mytest apt-get -qq install -y software-properties-common
 
 
 #to get missing keys
@@ -129,9 +139,9 @@ export DEBIAN_FRONTEND=noninteractive
 debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password password 'PASSWORD'"
 debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password_again password 'PASSWORD'"
 
-apt-get -y install mariadb-server-${VERSION}
+mytest apt-get -y install mariadb-server-${VERSION}
 
-mysql -e "GRANT ALL ON *.* TO dba@'%' IDENTIFIED BY '$PASSWORD'; "
+mytest mysql -e "GRANT ALL ON *.* TO dba@'%' IDENTIFIED BY '$PASSWORD'; "
 
 IFS=',' read -r -a array <<< "$CLUSTER_MEMBER"
 
