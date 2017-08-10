@@ -65,7 +65,7 @@ fi
 echo "PASSWORD = $PASSWORD"
 echo "CLUSTER_NAME = $CLUSTER_NAME"
 echo "CLUSTER_MEMBER = $CLUSTER_MEMBER"
-
+echo "VERSION = $VERSION"
 
 #import mariadb key
 mytest wget -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF1656F24C74CD1D8" | apt-key add -
