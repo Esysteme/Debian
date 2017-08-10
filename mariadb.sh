@@ -10,7 +10,7 @@ SSD='false'
 SPIDER='false'
 CLUSTER='OFF'
 
-while getopts 'hp:n:m:xv:sg' flag; do
+while getopts 'hp:n:m:xv:sgc' flag; do
   case "${flag}" in
     h) 
         echo "auto install mariadb"
