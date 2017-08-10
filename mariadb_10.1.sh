@@ -6,23 +6,59 @@ while test $# -gt 0; do
         case "$1" in
                 -h|--help)
                         echo "[pmacli] - auto install mariadb"
-                        echo "example : ./mariadb_10.1.sh -p my_password -c Esysteme -m 127.0.0.1,127.0.0.2,127.0.0.3"                        
+                        echo "example : ./mariadb_10.1.sh -p 'my_password' -c 'Esysteme' -m '127.0.0.1,127.0.0.2,127.0.0.3'"
                         echo " "
                         echo "options:"
-                        echo "-p, --passwordpPASSWORD                   specify root password for mariadb"
+                        echo "-p, --password=PASSWORD                   specify root password for mariadb"
                         echo "-c, --clustername=name                    specify the name of galera cluster"
                         echo "-m, --cluster-member=ip1,ip2,ip3          specify the list of member of cluster"
                         exit 0
                         ;;
-                -c|--cluster-name)
-                        CLUSTER_NAME=$1
+                -c)
+                        shift
+                                if test $# -gt 0; then
+                                        export CLUSTER_NAME=$1
+                                else
+                                        echo "no cluster's name specified"
+                                        exit 1
+                                fi
+                        shift
+                ;;
+                --cluster-name*)
+                       CLUSTER_NAME=`echo $1 | sed -e 's/^[^=]*=//g'`
+                        shift
+                        
                         ;;
-                -p|--password)
-                        PASSWORD=$1
+                -p)
+                        shift
+                                if test $# -gt 0; then
+                                         PASSWORD=$1
+                                else
+                                        echo "no password specified"
+                                        exit 1
+                                fi
+                        shift
+                
+                        ;;
+                --password*)
+                        PASSWORD=`echo $1 | sed -e 's/^[^=]*=//g'`
+                        shift
+                        
                         ;;
                         
-                -m|--cluster-member)
-                       CLUSTER_MEMBER=$1
+                -m)
+                        shift
+                                if test $# -gt 0; then
+                                         CLUSTER_MEMBER=$1
+                                else
+                                        echo "no cluster member specified"
+                                        exit 1
+                                fi
+                        shift
+                        
+                --cluster-member*)
+                       CLUSTER_MEMBER=`echo $1 | sed -e 's/^[^=]*=//g'`
+                        shift
                        ;;
                         
                 *)
