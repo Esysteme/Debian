@@ -2,6 +2,9 @@
 
 #mariadb 10.2
 
+
+$VERSION='10.1'
+
 while test $# -gt 0; do
         case "$1" in
                 -h|--help)
@@ -60,6 +63,17 @@ while test $# -gt 0; do
                        CLUSTER_MEMBER=`echo $1 | sed -e 's/^[^=]*=//g'`
                         shift
                        ;;
+                       
+                -v)
+                shift
+                                if test $# -gt 0; then
+                                         VERSION=$1
+                                else
+                                        echo "no cluster member specified"
+                                        exit 1
+                                fi
+                        shift
+                        ;;
                         
                 *)
                         break
@@ -68,7 +82,6 @@ while test $# -gt 0; do
 done
 
 
-echo "TEST"
 
 if [ -z ${PASSWORD} ]; 
 then 
@@ -83,7 +96,6 @@ echo "PASSWORD = $PASSWORD"
 echo "CLUSTER_NAME = $CLUSTER_NAME"
 echo "CLUSTER_MEMBER = $CLUSTER_MEMBER"
 
-echo "TEST2"
 
 apt-get update
 apt-get -y upgrade
@@ -96,14 +108,14 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8B48AD6246925553
 apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "\nProcessing key: $key"; gpg --keyserver subkeys.pgp.net --recv $key && sudo gpg --export --armor $key | apt-key add -; done
 
 
-add-apt-repository 'deb [arch=amd64] http://ftp.igh.cnrs.fr/pub/mariadb/repo/10.2/debian stretch main'
+add-apt-repository "deb [arch=amd64] http://ftp.igh.cnrs.fr/pub/mariadb/repo/$VERSION/debian stretch main"
 apt-get update
 
 export DEBIAN_FRONTEND=noninteractive
-debconf-set-selections <<< "mariadb-server-10.1 mysql-server/root_password password 'PASSWORD'"
-debconf-set-selections <<< "mariadb-server-10.1 mysql-server/root_password_again password 'PASSWORD'"
+debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password password 'PASSWORD'"
+debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password_again password 'PASSWORD'"
 
-apt-get -y install mariadb-server-10.2
+apt-get -y install mariadb-server-${VERSION}
 
 mysql -e "GRANT ALL ON *.* TO dba@'%' IDENTIFIED BY '$PASSWORD'; "
 
@@ -129,16 +141,16 @@ version=`mysql -u root -p$PASSWORD -se "SELECT VERSION()" | sed -n 1p | grep -Po
 
 case "$version" in
     "10.1")
-        apt-get -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
-        apt-get -y install mariadb-plugin-tokudb
+        apt-get -q -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
+        apt-get -q -y install mariadb-plugin-tokudb
         ;;
     "10.2")
-        apt-get -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
-        apt-get -y install mariadb-plugin-myrocks
+        apt-get -q -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
+        apt-get -q -y install mariadb-plugin-myrocks
         ;;
     "10.3")
-        apt-get -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
-        apt-get -y install mariadb-plugin-myrocks
+        apt-get -q -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
+        apt-get -q -y install mariadb-plugin-myrocks
         ;;
 
     *)
@@ -175,10 +187,10 @@ chown mysql:mysql -R /data/mysql
 
 # install xtrabackup
 wget https://repo.percona.com/apt/percona-release_0.1-4.$(lsb_release -sc)_all.deb
-dpkg -i percona-release_0.1-4.$(lsb_release -sc)_all.deb
+dpkg -q -i percona-release_0.1-4.$(lsb_release -sc)_all.deb
 
-apt-get update
-apt-get install -y percona-xtrabackup-24
+apt-get -q update
+apt-get -q install -y percona-xtrabackup-24
 
 cat > /etc/mysql/conf.d/99-esysteme.cnf << EOF
 
@@ -409,21 +421,21 @@ EOF
 
 #vim 
 
-apt-get -y install vim
+apt-get -q -y install vim
 
 echo -e "syntax on" > /root/.vimrc
 
 
 /* others */
 
-apt-get install -y tree locate screen iftop htop curl git unzip atop nmap
+apt-get install -q -y tree locate screen iftop htop curl git unzip atop nmap
 
 
 
 
 #install php 
 
-apt-get install -y apache2
+apt-get install -q -y apache2
 
 
 
@@ -459,9 +471,9 @@ apt-key add dotdeb.gpg
 
 rm dotdeb.gpg
 
-apt-get update
+apt-get -q update
 
-apt-get install -y php7.0 php7.0-mysql php7.0-json php7.0-gd php7.0-geoip php7.0-dba php7.0-curl  php7.0-cli php7.0-common php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-memcached php7.0-xml
+apt-get -q install -y php7.0 php7.0-mysql php7.0-json php7.0-gd php7.0-geoip php7.0-dba php7.0-curl  php7.0-cli php7.0-common php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-memcached php7.0-xml
 
 
 sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php/7.0/apache2/php.ini
