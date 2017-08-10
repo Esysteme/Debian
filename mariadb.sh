@@ -73,17 +73,13 @@ OS=`lsb_release -cs`
 DISTRIB=`lsb_release -si`
 DISTRIB=`echo "$DISTRIB" | tr '[:upper:]' '[:lower:]'`
 
-
 case "$OS" in
     "jessie")
-        break;
         ;;
         
     "stretch")
-        break;
         ;;
     "xenial")
-        break;
         ;;
     *)
         echo "This version is not supported : '$OS'"
@@ -94,11 +90,9 @@ esac
 
 case "$DISTRIB" in
     "debian")
-        break;
         ;;
         
     "ubuntu")
-        break;
         ;;
 
     *)
@@ -106,7 +100,6 @@ case "$DISTRIB" in
         exit 1;
         ;; 
 esac
-
 
 mytest apt-get -qq update
 mytest apt-get -qq -y upgrade
