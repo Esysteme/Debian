@@ -418,56 +418,61 @@ apt-get install -q -y tree locate screen iftop htop curl git unzip atop nmap
 
 #install php 
 
-apt-get install -q -y apache2
+
+if [ "$PHP" = "true" ]
+then
+
+  apt-get install -q -y apache2
 
 
 
-case "$os" in
-    "stretch")
+  case "$os" in
+      "stretch")
 
-        ;;
-    "jessie")
-                echo ' ' >> /etc/apt/sources.list
-                echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list
-                echo 'deb-src http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list
+          ;;
+      "jessie")
+                  echo ' ' >> /etc/apt/sources.list
+                  echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list
+                  echo 'deb-src http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list
 
-                wget http://www.dotdeb.org/dotdeb.gpg
-                apt-key add dotdeb.gpg
+                  wget http://www.dotdeb.org/dotdeb.gpg
+                  apt-key add dotdeb.gpg
 
-                rm dotdeb.gpg
+                  rm dotdeb.gpg
 
-        ;;
-
-
-    *)
-        echo "This version is not supported : '$os'"
-        ;; 
-esac
+          ;;
 
 
-apt-get -q update
-
-apt-get -q install -y php7.0 php7.0-mysql php7.0-json php7.0-gd php7.0-geoip php7.0-dba php7.0-curl  php7.0-cli php7.0-common php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-memcached php7.0-xml
-
-
-sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php/7.0/apache2/php.ini
-sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php/7.0/cli/php.ini
-sed -i 's/\/var\/www\/html/\/data\/www/g'  /etc/apache2/sites-enabled/000-default.conf
-sed -i 's/\/var\/www/\/data\/www/g'  /etc/apache2/apache2.conf
-
-mkdir -p /data/www/
-cd /data/www/
-
-apt-get -q -y install libapache2-mod-php7.0
-
-a2enmod php7.0
-a2enmod rewrite
-
-service apache2 restart
+      *)
+          echo "This version is not supported : '$os'"
+          ;; 
+  esac
 
 
-mkdir -p /data/www/
-cd /data/www/
+  apt-get -q update
 
-curl -sS https://getcomposer.org/installer | php --
-mv composer.phar /usr/local/bin/composer
+  apt-get -q install -y php7.0 php7.0-mysql php7.0-json php7.0-gd php7.0-geoip php7.0-dba php7.0-curl  php7.0-cli php7.0-common php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-memcached php7.0-xml
+
+
+  sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php/7.0/apache2/php.ini
+  sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php/7.0/cli/php.ini
+  sed -i 's/\/var\/www\/html/\/data\/www/g'  /etc/apache2/sites-enabled/000-default.conf
+  sed -i 's/\/var\/www/\/data\/www/g'  /etc/apache2/apache2.conf
+
+  mkdir -p /data/www/
+  cd /data/www/
+
+  apt-get -q -y install libapache2-mod-php7.0
+
+  a2enmod php7.0
+  a2enmod rewrite
+
+  service apache2 restart
+
+
+  mkdir -p /data/www/
+  cd /data/www/
+
+  curl -sS https://getcomposer.org/installer | php --
+  mv composer.phar /usr/local/bin/composer
+fi
