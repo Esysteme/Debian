@@ -3,16 +3,13 @@
 #mariadb 10.2
 
 
-$VERSION='10.1'
-
-
 VERSION='10.1'
 CLUSTER_NAME='Esysteme'
 CLUSTER_MEMBER=''
 PHP='false'
 PASSWORD=''
 
-while getopts 'abf:v' flag; do
+while getopts 'hp:n:m:x' flag; do
   case "${flag}" in
     h) 
         echo "auto install mariadb"
@@ -24,11 +21,10 @@ while getopts 'abf:v' flag; do
         echo "-m ip1,ip2,ip3          specify the list of member of cluster"
         exit 0
     ;;
-    p) aflag='true' ;;
-    n) bflag='true' ;;
-    m) files="${OPTARG}" ;;
+    p) PASSWORD="${OPTARG}" ;;
+    n) CLUSTER_NAME="${OPTARG}" ;;
+    m) CLUSTER_MEMBER="${OPTARG}" ;;
     x) PHP='true' ;;
-    
     v) VERSION="${OPTARG}" ;;
     *) error "Unexpected option ${flag}" ;;
   esac
@@ -36,88 +32,9 @@ done
 
 
 
-
-while test $# -gt 0; do
-        case "$1" in
-                -h|--help)
-                        echo "[pmacli] - auto install mariadb"
-                        echo "example : ./mariadb_10.1.sh -p 'my_password' -c 'Esysteme' -m '127.0.0.1,127.0.0.2,127.0.0.3'"
-                        echo " "
-                        echo "options:"
-                        echo "-p, --password=PASSWORD                   specify root password for mariadb"
-                        echo "-c, --clustername=name                    specify the name of galera cluster"
-                        echo "-m, --cluster-member=ip1,ip2,ip3          specify the list of member of cluster"
-                        exit 0
-                        ;;
-                -c)
-                        shift
-                                if test $# -gt 0; then
-                                        export CLUSTER_NAME=$1
-                                else
-                                        echo "no cluster's name specified"
-                                        exit 1
-                                fi
-                        shift
-                ;;
-                --cluster-name*)
-                       CLUSTER_NAME=`echo $1 | sed -e 's/^[^=]*=//g'`
-                        shift
-                        
-                        ;;
-                -p)
-                        shift
-                                if test $# -gt 0; then
-                                         PASSWORD=$1
-                                else
-                                        echo "no password specified"
-                                        exit 1
-                                fi
-                        shift
-                
-                        ;;
-                --password*)
-                        PASSWORD=`echo $1 | sed -e 's/^[^=]*=//g'`
-                        shift
-                        
-                        ;;
-                        
-                -m)
-                        shift
-                                if test $# -gt 0; then
-                                         CLUSTER_MEMBER=$1
-                                else
-                                        echo "no cluster member specified"
-                                        exit 1
-                                fi
-                        shift
-                        ;;
-                --cluster-member*)
-                       CLUSTER_MEMBER=`echo $1 | sed -e 's/^[^=]*=//g'`
-                        shift
-                       ;;
-                       
-                -v)
-                shift
-                                if test $# -gt 0; then
-                                         VERSION=$1
-                                else
-                                        echo "no cluster member specified"
-                                        exit 1
-                                fi
-                        shift
-                        ;;
-                        
-                *)
-                        break
-                        ;;
-        esac
-done
-
-
-
 if [ -z ${PASSWORD} ]; 
 then 
-echo "option -p required"
+echo "option -p required (password)"
 echo "for help -h"
 exit 0;
 else 
