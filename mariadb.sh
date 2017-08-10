@@ -50,7 +50,10 @@ function mytest {
     return $status
 }
 
-
+if [ -z ${VERSION} ]; 
+then 
+  VERSION='10.1'
+fi
 
 if [ -z ${PASSWORD} ]; 
 then 
@@ -117,12 +120,12 @@ do
 done
 
 
-cat > /etc/apt/sources.list.d/mariadb.list < EOF
+cat > /etc/apt/sources.list.d/mariadb.list << EOF
 # MariaDB $VERSION repository list - created 2017-08-10 22:02 UTC
 # http://downloads.mariadb.org/mariadb/repositories/
 deb [arch=i386,amd64] http://ftp.igh.cnrs.fr/pub/mariadb/repo/${VERSION}/${DISTRIB} ${OS} main
 deb-src http://ftp.igh.cnrs.fr/pub/mariadb/repo/${VERSION}/${DISTRIB} ${OS} main
-EOF;
+EOF
 
 
 #add-apt-repository "deb [arch=amd64] http://ftp.igh.cnrs.fr/pub/mariadb/repo/$VERSION/$DISTRIB $OS main"
