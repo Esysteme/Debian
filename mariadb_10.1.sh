@@ -5,6 +5,38 @@
 
 $VERSION='10.1'
 
+
+VERSION='10.1'
+CLUSTER_NAME='Esysteme'
+CLUSTER_MEMBER=''
+PHP='false'
+PASSWORD=''
+
+while getopts 'abf:v' flag; do
+  case "${flag}" in
+    h) 
+        echo "auto install mariadb"
+        echo "example : ./mariadb_10.1.sh -p 'my_password' -c 'Esysteme' -m '127.0.0.1,127.0.0.2,127.0.0.3'"
+        echo " "
+        echo "options:"
+        echo "-p PASSWORD             specify root password for mariadb"
+        echo "-n name                 specify the name of galera cluster"
+        echo "-m ip1,ip2,ip3          specify the list of member of cluster"
+        exit 0
+    ;;
+    p) aflag='true' ;;
+    n) bflag='true' ;;
+    m) files="${OPTARG}" ;;
+    x) PHP='true' ;;
+    
+    v) VERSION="${OPTARG}" ;;
+    *) error "Unexpected option ${flag}" ;;
+  esac
+done
+
+
+
+
 while test $# -gt 0; do
         case "$1" in
                 -h|--help)
