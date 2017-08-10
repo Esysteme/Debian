@@ -62,10 +62,14 @@ os=`lsb_release -cs`
 
 case "$version" in
     "jessie")
+        break;
         ;;
+        
     "stretch")
+        break;
         ;;
     "xenial")
+        break;
         ;;
     *)
         echo "This version is not supported : '$os'"
