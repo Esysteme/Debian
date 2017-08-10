@@ -78,11 +78,14 @@ DISTRIB=`echo "$DISTRIB" | tr '[:upper:]' '[:lower:]'`
 
 case "$OS" in
     "jessie")
+      echo "OS : $OS"
         ;;
         
     "stretch")
+      echo "OS : $OS"
         ;;
     "xenial")
+      echo "OS : $OS"
         ;;
     *)
         echo "This version is not supported : '$OS'"
