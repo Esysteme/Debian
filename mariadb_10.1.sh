@@ -55,7 +55,7 @@ while test $# -gt 0; do
                                         exit 1
                                 fi
                         shift
-                        
+                        ;;
                 --cluster-member*)
                        CLUSTER_MEMBER=`echo $1 | sed -e 's/^[^=]*=//g'`
                         shift
