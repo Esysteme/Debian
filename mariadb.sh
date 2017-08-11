@@ -46,10 +46,11 @@ done
 
 
 function purge {
+ export DEBIAN_FRONTEND=noninteractive
  rm -rvf /etc/mysql/*
  apt-get -qq -y purge $(dpkg -l | grep mariadb | cut -d ' ' -f 3)
  apt-get -qq -y purge $(dpkg -l | grep mysql | cut -d ' ' -f 3)
- apt-get autoremove
+ apt-get -y autoremove
  apt-get clean
 }
 
