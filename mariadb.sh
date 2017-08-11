@@ -53,7 +53,9 @@ function purge {
  apt-get clean
 }
 
-if [ "${PURGE}" = "true" ];
+
+
+if [ "$PURGE" = "true" ]
 then
   purge
 fi
@@ -156,6 +158,8 @@ export DEBIAN_FRONTEND=noninteractive
 #debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password_again password 'PASSWORD'"
 
 mytest apt-get -qq -y install mariadb-server-${VERSION}
+
+mysql -e "SET PASSWORD = password('$PASSWORD')"
 
 mysql -p -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY '$PASSWORD' WITH GRANT OPTION;flush privileges; "
 
@@ -465,7 +469,7 @@ apt-get -qq -y install vim
 echo -e "syntax on" > /root/.vimrc
 
 
-/* others */
+#others
 
 apt-get -qq install -y tree locate screen iftop htop curl git unzip atop nmap
 
