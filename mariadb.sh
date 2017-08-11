@@ -230,6 +230,8 @@ chown mysql:mysql -R /data/mysql
 wget https://repo.percona.com/apt/percona-release_0.1-4.${OS}_all.deb
 dpkg -i percona-release_0.1-4.${OS}_all.deb
 
+rm percona-release_0.1-4.${OS}_all.deb
+
 apt-get -qq update
 apt-get -qq install -y percona-xtrabackup-24
 
