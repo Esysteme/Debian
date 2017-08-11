@@ -160,20 +160,18 @@ debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password
 
 mytest apt-get -qq -y install mariadb-server-${VERSION}
 
-mysql -e "SET PASSWORD = password('$PASSWORD')"
-
-mysql -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY '$PASSWORD' WITH GRANT OPTION;flush privileges; "
-
-mytest mysql -u root -p${PASSWORD} -e "GRANT ALL ON *.* TO dba@'%' IDENTIFIED BY '$PASSWORD' WITH GRANT OPTION; "
+#mysql -e "SET PASSWORD = password('$PASSWORD')"
 
 IFS=',' read -r -a array <<< "$CLUSTER_MEMBER"
 
 for server in "${array[@]}"
 do
-    mysql -u root -p${PASSWORD} -e "GRANT ALL ON *.* TO sst@'$server' IDENTIFIED BY 'QSEDWGRg133' WITH GRANT OPTION;" 
+    mysql -e "GRANT ALL ON *.* TO sst@'$server' IDENTIFIED BY 'QSEDWGRg133' WITH GRANT OPTION;" 
 done
 
+mytest mysql -e "GRANT ALL ON *.* TO dba@'%' IDENTIFIED BY '$PASSWORD' WITH GRANT OPTION; "
 
+mysql -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY '$PASSWORD' WITH GRANT OPTION;"
 
 
 
