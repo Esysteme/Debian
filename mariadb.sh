@@ -157,19 +157,19 @@ export DEBIAN_FRONTEND=noninteractive
 
 mytest apt-get -qq -y install mariadb-server-${VERSION}
 
+mysql -p -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY '$PASSWORD' WITH GRANT OPTION;flush privileges; "
 
-
-mytest mysql -e "GRANT ALL ON *.* TO dba@'%' IDENTIFIED BY '$PASSWORD'; "
+mytest mysql -u root -p${PASSWORD} -e "GRANT ALL ON *.* TO dba@'%' IDENTIFIED BY '$PASSWORD' WITH GRANT OPTION; "
 
 IFS=',' read -r -a array <<< "$CLUSTER_MEMBER"
 
 for server in "${array[@]}"
 do
-    mysql -e "GRANT ALL ON *.* TO sst@'$server' IDENTIFIED BY 'QSEDWGRg133';" 
+    mysql -u root -p${PASSWORD} -e "GRANT ALL ON *.* TO sst@'$server' IDENTIFIED BY 'QSEDWGRg133' WITH GRANT OPTION;" 
 done
 
 
-mysql -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY '$PASSWORD';flush privileges; "
+
 
 
 echo -e "[client]
