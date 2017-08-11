@@ -454,7 +454,10 @@ key_buffer              = 16M
 
 EOF
 
-/etc/init.d/mysql start
+
+
+mytest galera_new_cluster
+#/etc/init.d/mysql start
 
 #vim 
 
