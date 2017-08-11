@@ -155,23 +155,22 @@ mytest apt-get -qq -y install software-properties-common
 
 
 export DEBIAN_FRONTEND=noninteractive
-debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password password root"
-debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password_again password root"
+debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password password $PASSWORD"
+debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password_again password $PASSWORD"
 
 mytest apt-get -qq -y install mariadb-server-${VERSION}
 
-mytest mysql -e "SET PASSWORD = password('$PASSWORD')"
 
 IFS=',' read -r -a array <<< "$CLUSTER_MEMBER"
 
 for server in "${array[@]}"
 do
-    mytest mysql -e "GRANT ALL ON *.* TO sst@'$server' IDENTIFIED BY 'QSEDWGRg133' WITH GRANT OPTION;" 
+    mytest mysql -u root -p$PASSWORD -e "GRANT ALL ON *.* TO sst@'$server' IDENTIFIED BY 'QSEDWGRg133' WITH GRANT OPTION;" 
 done
 
-mytest mysql -e "GRANT ALL ON *.* TO dba@'%' IDENTIFIED BY '$PASSWORD' WITH GRANT OPTION; "
+mytest mysql -u root -p$PASSWORD -e "GRANT ALL ON *.* TO dba@'%' IDENTIFIED BY '$PASSWORD' WITH GRANT OPTION; "
 
-mytest mysql -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY '$PASSWORD' WITH GRANT OPTION;"
+mytest mysql -u root -p$PASSWORD -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY '$PASSWORD' WITH GRANT OPTION;"
 
 
 
