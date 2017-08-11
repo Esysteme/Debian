@@ -185,16 +185,16 @@ version=`mysql -u root -p$PASSWORD -se "SELECT VERSION()" | sed -n 1p | grep -Po
 
 case "$VERSION" in
     "10.1")
-        apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
-        apt-get -qq -y install mariadb-plugin-tokudb
+        #apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
+        #apt-get -qq -y install mariadb-plugin-tokudb
         ;;
     "10.2")
-        apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
-        apt-get -qq -y install mariadb-plugin-myrocks
+        #apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
+        #apt-get -qq -y install mariadb-plugin-myrocks
         ;;
     "10.3")
-        apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
-        apt-get -qq -y install mariadb-plugin-myrocks
+        #apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
+        #apt-get -qq -y install mariadb-plugin-myrocks
         ;;
 
     *)
@@ -230,8 +230,8 @@ cp -pr /var/lib/mysql/* /data/mysql/data
 chown mysql:mysql -R /data/mysql
 
 # install xtrabackup
-wget https://repo.percona.com/apt/percona-release_0.1-4.${os}_all.deb
-dpkg -i percona-release_0.1-4.${os}_all.deb
+wget https://repo.percona.com/apt/percona-release_0.1-4.${OS}_all.deb
+dpkg -i percona-release_0.1-4.${OS}_all.deb
 
 apt-get -qq update
 apt-get -qq install -y percona-xtrabackup-24
