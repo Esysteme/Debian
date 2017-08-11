@@ -50,8 +50,8 @@ function purge {
  rm -rvf /etc/mysql/*
  apt-get -qq -y purge $(dpkg -l | grep mariadb | cut -d ' ' -f 3)
  apt-get -qq -y purge $(dpkg -l | grep mysql | cut -d ' ' -f 3)
- apt-get -y autoremove
- apt-get clean
+ apt-get -qq -y autoremove
+ apt-get -qq clean
 }
 
 
