@@ -293,7 +293,7 @@ plugin_dir = /usr/lib/mysql/plugin/
 skip-name-resolve
 
 #logs
-error_log=/data/mysql/log/error.log
+log_error=/data/mysql/log/error.log
 
 
 #
