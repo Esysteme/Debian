@@ -233,7 +233,7 @@ dpkg -i percona-release_0.1-4.${OS}_all.deb
 apt-get -qq update
 apt-get -qq install -y percona-xtrabackup-24
 
-cat > /etc/mysql/conf.d/99-esysteme.cnf << EOF
+cat > /etc/mysql/my.cnf << EOF
 
 # MariaDB database server configuration file.
 #
@@ -268,6 +268,13 @@ nice            = 0
 #
 # * Basic Settings
 #
+
+performance_schema=ON
+
+character-set-server  = utf8 
+collation-server      = utf8_general_ci 
+character_set_server   = utf8 
+collation_server       = utf8_general_ci
 
 #innodb_force_recovery = 1
 
@@ -411,10 +418,14 @@ innodb_flush_method     = O_DIRECT
 # ssl-cert=/etc/mysql/server-cert.pem
 # ssl-key=/etc/mysql/server-key.pem
 
+
+
 #
 # * Galera-related settings
 event-scheduler = ON
 #
+
+
 [galera]
 # Mandatory settings
 wsrep_on=$CLUSTER
@@ -451,6 +462,8 @@ max_allowed_packet      = 16M
 
 [isamchk]
 key_buffer              = 16M
+
+!includedir /etc/mysql/conf.d/
 
 EOF
 
