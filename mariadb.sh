@@ -50,6 +50,7 @@ function purge {
  rm -rvf /etc/mysql/*
  apt-get -qq -y purge $(dpkg -l | grep mariadb | cut -d ' ' -f 3)
  apt-get -qq -y purge $(dpkg -l | grep mysql | cut -d ' ' -f 3)
+ apt-get -qq -y purge $(dpkg -l | grep percona | cut -d ' ' -f 3)
  apt-get -qq -y autoremove
  apt-get -qq clean
 }
@@ -233,7 +234,7 @@ dpkg -i percona-release_0.1-4.${OS}_all.deb
 rm percona-release_0.1-4.${OS}_all.deb
 
 apt-get -qq update
-apt-get -qq install -y percona-xtrabackup-24
+apt-get -qq install -y percona-xtrabackup-24 percona-toolkit 
 
 cat > /etc/mysql/my.cnf << EOF
 
@@ -473,6 +474,13 @@ EOF
 
 mytest galera_new_cluster
 #/etc/init.d/mysql start
+
+
+
+#backup
+apt-get -qq -y install mydumper
+
+
 
 #vim 
 
