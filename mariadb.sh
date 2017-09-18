@@ -100,6 +100,7 @@ case "$OS" in
     "jessie")      ;;
     "stretch")     ;;
     "xenial")      ;;
+    "zesty")       ;;
     *)
         echo "This version is not supported : '$OS'"
         exit 1;
