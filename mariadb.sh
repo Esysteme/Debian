@@ -188,11 +188,11 @@ case "$VERSION" in
         ;;
     "10.2")
         #apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
-        #apt-get -qq -y install mariadb-plugin-myrocks
+        #apt-get -qq -y mariadb-plugin-rocksdb
         ;;
     "10.3")
         #apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
-        #apt-get -qq -y install mariadb-plugin-myrocks
+        #apt-get -qq -y install mariadb-plugin-rocksdb
         ;;
 
     *)
