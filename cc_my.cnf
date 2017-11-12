@@ -91,14 +91,14 @@ wsrep_on=ON
 wsrep_node_address=91.121.166.199
 
 # Provider specific configuration options
-wsrep_provider_options="base_port=4567;gcache.size=1024M;gmcast.segment=0;socket.ssl_cert=/etc/ssl/galera/cluster_1/galera_rep.crt;socket.ssl_key=/etc/ssl/galera/cluster_1/galera_rep.key"
+# wsrep_provider_options="base_port=4567;gcache.size=1024M;gmcast.segment=0;socket.ssl_cert=/etc/ssl/galera/cluster_1/galera_rep.crt;socket.ssl_key=/etc/ssl/galera/cluster_1/galera_rep.key"
 
 # Logical cluster name. Should be the same for all nodes.
 wsrep_cluster_name="my_wsrep_cluster"
 
 # Group communication system handle
 wsrep_cluster_address=gcomm://
-#wsrep_cluster_address=gcomm://91.121.174.65,91.121.166.199,91.121.175.79
+# wsrep_cluster_address=gcomm://91.121.174.65,91.121.166.199,91.121.175.79
 
 # Human_readable node name (non-unique). Hostname by default.
 wsrep_node_name=91.121.166.199
@@ -195,7 +195,9 @@ max_allowed_packet = 512M
 user=backupuser
 password=ZP6Bywj9BBEMHqsV
 
-# IMPORTA[xtrabackup]
+# IMPORTANT: The user/password in wsrep_sst_auth must match
+# user/password in [xtrabackup]
+[xtrabackup]
 user=backupuser
 password=ZP6Bywj9BBEMHqsV
 databases-exclude=lost+found
