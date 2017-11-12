@@ -457,6 +457,57 @@ bind-address=0.0.0.0
 wsrep_slave_threads=4
 innodb_flush_log_at_trx_commit=2
 
+# DBUG options for wsrep provider
+#wsrep_dbug_option
+
+# Generate fake primary keys for non-PK tables (required for multi-master
+# and parallel applying operation)
+wsrep_certify_nonPK=1
+
+# Location of the directory with data files. Needed for non-mysqldump
+# state snapshot transfers. Defaults to mysql_real_data_home.
+#wsrep_data_home_dir=
+
+# Maximum number of rows in write set
+wsrep_max_ws_rows=131072
+
+# Maximum size of write set
+wsrep_max_ws_size=1073741824
+
+# to enable debug level logging, set this to 1
+wsrep_debug=0
+
+# convert locking sessions into transactions
+wsrep_convert_LOCK_to_trx=0
+
+# how many times to retry deadlocked autocommits
+wsrep_retry_autocommit=1
+
+# change auto_increment_increment and auto_increment_offset automatically
+wsrep_auto_increment_control=1
+
+# replicate myisam
+wsrep_replicate_myisam=1
+
+# retry autoinc insert, which failed for duplicate key error
+wsrep_drupal_282555_workaround=0
+
+# enable "strictly synchronous" semantics for read operations
+wsrep_causal_reads=0
+
+# Protocol version to use
+# wsrep_protocol_version=
+
+# log conflicts
+wsrep_log_conflicts=1
+
+
+
+[xtrabackup]
+user=sst
+password=QSEDWGRg133
+databases-exclude=lost+found
+
 [mysqldump]
 quick
 quote-names
