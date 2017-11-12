@@ -234,6 +234,11 @@ dpkg -i percona-release_0.1-4.${OS}_all.deb
 
 rm percona-release_0.1-4.${OS}_all.deb
 
+iptables -A INPUT -p tcp --dport 4444 -j ACCEPT
+iptables -A INPUT -p tcp --dport 4567 -j ACCEPT
+
+
+
 apt-get -qq update
 apt-get -qq install -y percona-xtrabackup-24 percona-toolkit netcat tar socat lsof
 
