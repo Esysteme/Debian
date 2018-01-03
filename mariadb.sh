@@ -1,8 +1,6 @@
-#debian
-#mariadb 10.2
-
-VERSION='10.1'
-CLUSTER_NAME='Esysteme'
+#!/bin/bash
+VERSION='10.2'
+CLUSTER_NAME='68Koncept'
 CLUSTER_MEMBER=''
 PHP='false'
 PASSWORD=''
@@ -10,8 +8,11 @@ SSD='false'
 SPIDER='false'
 CLUSTER='OFF'
 PURGE='false'
+DATADIR='/var/lib/mysql'
+REPO_LOCAL='false'
+BOOTSTRAP='false'
 
-while getopts 'hp:n:m:xv:sgcu' flag; do
+while getopts 'hp:n:m:xv:sgcud:rb' flag; do
   case "${flag}" in
     h) 
         echo "auto install mariadb"
@@ -21,25 +22,30 @@ while getopts 'hp:n:m:xv:sgcu' flag; do
         echo "-p PASSWORD             specify root password for mariadb"
         echo "-n name                 specify the name of galera cluster"
         echo "-m ip1,ip2,ip3          specify the list of member of cluster"
-        echo "-x                      Install last version of PHP"
         echo "-v 10.1                 specify the version of MariaDB/MySQL"
         echo "-s                      specify the hard drive are SSD"
         echo "-g                      specify to activate and make good set up for Spider"
         echo "-c                      set galera cluster ON"
         echo "-u                      [WARNING] purge previous version of MySQL / MariaDB"
-        
+	echo "-d		      set datadir of MySQL (replace of /var/lib/mysql)"
+	echo "-r		      if present use current directory"
+	echo "-b		      boostrap a new cluster"
         exit 0
     ;;
     p) PASSWORD="${OPTARG}" ;;
     n) CLUSTER_NAME="${OPTARG}" ;;
     m) CLUSTER_MEMBER="${OPTARG}" ;;
-    x) PHP='true' ;;
     v) VERSION="${OPTARG}" ;;
     s) SSD='true';;
     g) SPIDER='true';;
     c) CLUSTER='ON';;
     u) PURGE='true';;
-    *) echo "Unexpected option ${flag}" ;;
+    d) DATADIR="${OPTARG}";;
+    r) REPO_LOCAL='true';;
+    b) BOOTSTRAP='true';;
+    *) echo "Unexpected option ${flag}" 
+	exit 0
+    ;;
   esac
 done
 
@@ -47,12 +53,12 @@ done
 
 function purge {
  export DEBIAN_FRONTEND=noninteractive
- rm -rvf /etc/mysql/*
- apt-get -qq -y purge $(dpkg -l | grep mariadb | cut -d ' ' -f 3)
- apt-get -qq -y purge $(dpkg -l | grep mysql | cut -d ' ' -f 3)
- apt-get -qq -y purge $(dpkg -l | grep percona | cut -d ' ' -f 3)
- apt-get -qq -y autoremove
- apt-get -qq clean
+ rm -rf /etc/mysql/*
+ apt-get -qq -y purge $(dpkg -l | grep mariadb | cut -d ' ' -f 3) > /dev/null
+ apt-get -qq -y purge $(dpkg -l | grep mysql | cut -d ' ' -f 3) > /dev/null
+ apt-get -qq -y purge $(dpkg -l | grep percona | cut -d ' ' -f 3) > /dev/null
+ apt-get -qq -y autoremove > /dev/null
+ apt-get -qq clean > /dev/null
 }
 
 
@@ -68,6 +74,8 @@ function mytest {
     local status=$?
     if [ $status -ne 0 ]; then
         echo "error with $@" >&2
+
+	rm /etc/apt/sources.list.d/mariadb.list
         exit 1;
     fi
     return $status
@@ -89,6 +97,7 @@ echo "PASSWORD = $PASSWORD"
 echo "CLUSTER_NAME = $CLUSTER_NAME"
 echo "CLUSTER_MEMBER = $CLUSTER_MEMBER"
 echo "VERSION = $VERSION"
+echo "DATADIR = $DATADIR"
 
 
 OS=`lsb_release -cs`
@@ -127,19 +136,26 @@ echo "OS = $OS"
 
 #import mariadb key
 
-echo "Import public key"
-mytest wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF1656F24C74CD1D8" | apt-key add -
-mytest wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xcbcb082a1bb943db" | apt-key add -
 
 
-#to get missing keys
-apt-get -qq update 2> /tmp/keymissing; 
-for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); 
-do 
-  echo -e "\nProcessing key: $key"; 
-  wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=$key" | apt-key add -
-  #gpg --keyserver subkeys.pgp.net --recv $key && gpg --export --armor $key | apt-key add -; 
-done
+if [ $REPO_LOCAL = "false" ]
+	then
+
+	echo "Import public key"
+	mytest wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF1656F24C74CD1D8" | apt-key add -
+	mytest wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xcbcb082a1bb943db" | apt-key add -
+
+
+	#to get missing keys
+	mytest apt-get -m -qq -y update 2> /tmp/keymissing; 
+	for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); 
+	do 
+	  echo -e "\nProcessing key: $key"; 
+	  wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=$key" | apt-key add -
+	  #gpg --keyserver subkeys.pgp.net --recv $key && gpg --export --armor $key | apt-key add -; 
+	done
+
+
 
 
 cat > /etc/apt/sources.list.d/mariadb.list << EOF
@@ -149,18 +165,19 @@ deb [arch=i386,amd64] http://ftp.igh.cnrs.fr/pub/mariadb/repo/${VERSION}/${DISTR
 deb-src http://ftp.igh.cnrs.fr/pub/mariadb/repo/${VERSION}/${DISTRIB} ${OS} main
 EOF
 
+fi
 
-mytest apt-get -qq update
-mytest apt-get -qq -y upgrade
+mytest apt-get -m -qq -y update 2>&1
+mytest apt-get -qq -y upgrade > /dev/null
 
-mytest apt-get -qq -y install software-properties-common
+mytest apt-get -qq -y install software-properties-common > /dev/null
 
 
 export DEBIAN_FRONTEND=noninteractive
 debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password password $PASSWORD"
 debconf-set-selections <<< "mariadb-server-${VERSION} mysql-server/root_password_again password $PASSWORD"
 
-mytest apt-get -qq -y install mariadb-server-${VERSION}
+mytest apt-get -qq -y install mariadb-server-${VERSION} > /dev/null
 
 
 IFS=',' read -r -a array <<< "$CLUSTER_MEMBER"
@@ -182,28 +199,20 @@ password='$PASSWORD'" > /root/.my.cnf
 
 version=`mysql -u root -p$PASSWORD -se "SELECT VERSION()" | sed -n 1p | grep -Po '10\.([0-9]{1,2})'`
 
-case "$VERSION" in
-    "10.1")
-        #apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
-        #apt-get -qq -y install mariadb-plugin-tokudb
-        ;;
-    "10.2")
-        #apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
-        #apt-get -qq -y mariadb-plugin-rocksdb
-        ;;
-    "10.3")
-        #apt-get -qq -y install mariadb-plugin-mroonga mariadb-plugin-oqgraph mariadb-plugin-spider 
-        #apt-get -qq -y install mariadb-plugin-rocksdb
-        ;;
 
-    *)
-        echo "This version is not supported : '$VERSION'"
-        ;; 
-esac
 
-ip=`ifconfig | grep -Eo 'inet (a[d]{1,2}r:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
+
+ip=`ifconfig | grep -Eo 'inet (a[d]{1,2}r:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | head -n 1`
+
+echo "IP : $ip"
+
 crc32=`mysql -u root -p$PASSWORD -e "SELECT CRC32('$ip')"`
+
+#echo "crc32 : $crc32"
+
 id_server=`echo -n $crc32 | cut -d ' ' -f 2 | tr -d '\n'`
+
+echo "ID Server : ${id_server}"
 
 hostname=`hostname`
 
@@ -217,30 +226,34 @@ if [ memtotal > 4 ];then
   innodb_buffer_pool_size=`echo $new_buffer | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}'`
 fi
 
-/etc/init.d/mysql stop
+mytest /etc/init.d/mysql stop > /dev/null
 
-mkdir -p /data/mysql/log
-mkdir -p /data/mysql/backup
-mkdir -p /data/mysql/data
-mkdir -p /data/mysql/binlog
+mkdir -p $DATADIR/log
+mkdir -p $DATADIR/backup
+mkdir -p $DATADIR/data
+mkdir -p $DATADIR/binlog
 
-cp -pr /var/lib/mysql/* /data/mysql/data
+cp -pr /var/lib/mysql/* $DATADIR/data
 
-chown mysql:mysql -R /data/mysql
+chown mysql:mysql -R $DATADIR
 
 # install xtrabackup
-wget https://repo.percona.com/apt/percona-release_0.1-4.${OS}_all.deb
-dpkg -i percona-release_0.1-4.${OS}_all.deb
-
-rm percona-release_0.1-4.${OS}_all.deb
-
-iptables -A INPUT -p tcp --dport 4444 -j ACCEPT
-iptables -A INPUT -p tcp --dport 4567 -j ACCEPT
 
 
+if [ $REPO_LOCAL = "false" ]
+then
+	wget https://repo.percona.com/apt/percona-release_0.1-4.${OS}_all.deb
+	dpkg -i percona-release_0.1-4.${OS}_all.deb
 
-apt-get -qq update
-apt-get -qq install -y percona-xtrabackup-24 percona-toolkit netcat tar socat lsof
+	rm percona-release_0.1-4.${OS}_all.deb
+fi
+
+
+#iptables -A INPUT -p tcp --dport 4444 -j ACCEPT
+#iptables -A INPUT -p tcp --dport 4567 -j ACCEPT
+
+
+
 
 cat > /etc/mysql/my.cnf << EOF
 
@@ -292,7 +305,7 @@ pid-file        = /var/run/mysqld/mysqld.pid
 socket          = /var/run/mysqld/mysqld.sock
 port            = 3306
 basedir         = /usr
-datadir         = /data/mysql/data
+datadir         = ${DATADIR}/data
 tmpdir          = /tmp
 lc_messages_dir = /usr/share/mysql
 lc_messages     = en_US
@@ -302,7 +315,7 @@ plugin_dir = /usr/lib/mysql/plugin/
 skip-name-resolve
 
 #logs
-log_error=/data/mysql/log/error.log
+log_error=${DATADIR}/log/error.log
 
 
 #
@@ -353,7 +366,7 @@ query_cache_type                = OFF
 # Both location gets rotated by the cronjob.
 # Be aware that this log type is a performance killer.
 # As of 5.1 you can enable the log at runtime!
-#general_log_file        = /data/mysql/log/general.log
+general_log_file        = $DATADIR/log/general.log
 #general_log             = 1
 #
 # Error logging goes to syslog due to /etc/mysql/conf.d/mysqld_safe_syslog.cnf.
@@ -363,7 +376,7 @@ log_warnings            = 2
 #
 # Enable the slow query log to see queries with especially long duration
 #slow_query_log[={0|1}]
-slow_query_log_file     = /var/log/mysql/mariadb-slow.log
+slow_query_log_file     = $DATADIR/mariadb-slow.log
 long_query_time = 1
 #log_slow_rate_limit    = 1000
 log_slow_verbosity      = query_plan
@@ -380,8 +393,8 @@ report_host            = $hostname
 
 #auto_increment_increment = 2
 #auto_increment_offset  = 1
-log_bin                        = /data/mysql/binlog/mariadb-bin
-log_bin_index          = /data/mysql/binlog/mariadb-bin.index
+log_bin                        = $DATADIR/binlog/mariadb-bin
+log_bin_index          = $DATADIR/binlog/mariadb-bin.index
 # not fab for performance, but safer
 #sync_binlog            = 1
 expire_logs_days        = 10
@@ -529,89 +542,29 @@ key_buffer              = 16M
 EOF
 
 
+if [ $BOOTSTRAP = 'true' ]
+then 
+	mytest galera_new_cluster 2>&1 > /dev/null
+else
+	mytest /etc/init.d/mysql start 2>&1 > /dev/null
+fi
 
-mytest galera_new_cluster
-#/etc/init.d/mysql start
-
-
+mytest apt-get -qq update > /dev/null
+mytest apt-get -qq install -y percona-xtrabackup-24 percona-toolkit > /dev/null
+mytest apt-get -qq install -y netcat tar socat lsof > /dev/null
 
 #backup
-apt-get -qq -y install mydumper
-
+apt-get -qq -y install mydumper > /dev/null
 
 
 #vim 
 
-apt-get -qq -y install vim
-
+apt-get -qq -y install vim > /dev/null
 echo -e "syntax on" > /root/.vimrc
+echo -e "set mouse=r" >> /root/.vimrc
 
 
 #others
-
-apt-get -qq install -y tree locate screen iftop htop curl git unzip atop nmap
-
+apt-get -qq install -y tree locate screen iftop htop curl git unzip atop nmap > /dev/null
 
 
-
-#install php 
-
-
-if [ "$PHP" = "true" ]
-then
-  echo "Installation of PHP"
-  
-  apt-get -qq install -y apache2
-
-
-
-  case "$OS" in
-      "stretch")
-
-          ;;
-      "jessie")
-                  echo ' ' >> /etc/apt/sources.list
-                  echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list
-                  echo 'deb-src http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list
-
-                  wget http://www.dotdeb.org/dotdeb.gpg
-                  apt-key add dotdeb.gpg
-
-                  rm dotdeb.gpg
-
-          ;;
-
-
-      *)
-          echo "This version is not supported : '$os'"
-          ;; 
-  esac
-
-
-  apt-get -qq update
-
-  apt-get -qq install -y php7.0 php7.0-mysql php7.0-json php7.0-gd php7.0-geoip php7.0-dba php7.0-curl  php7.0-cli php7.0-common php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-memcached php7.0-xml
-
-
-  sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php/7.0/apache2/php.ini
-  sed -i 's/;date.timezone =/date.timezone =Europe\/Paris/g' /etc/php/7.0/cli/php.ini
-  sed -i 's/\/var\/www\/html/\/data\/www/g'  /etc/apache2/sites-enabled/000-default.conf
-  sed -i 's/\/var\/www/\/data\/www/g'  /etc/apache2/apache2.conf
-
-  mkdir -p /data/www/
-  cd /data/www/
-
-  apt-get -q -y install libapache2-mod-php7.0
-
-  a2enmod php7.0
-  a2enmod rewrite
-
-  service apache2 restart
-
-
-  mkdir -p /data/www/
-  cd /data/www/
-
-  curl -sS https://getcomposer.org/installer | php --
-  mv composer.phar /usr/local/bin/composer
-fi
