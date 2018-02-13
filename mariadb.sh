@@ -462,6 +462,10 @@ wsrep_gtid_mode=ON
 wsrep_sst_method = xtrabackup-v2
 wsrep_sst_auth = 'sst:QSEDWGRg133'
 
+wsrep_provider_options="gcache.size = 20G"
+wsrep_max_ws_rows = 500000
+
+
 binlog_format=row
 default_storage_engine=InnoDB
 innodb_autoinc_lock_mode=2
