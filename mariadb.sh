@@ -553,7 +553,7 @@ EOF
 if [ $DEBIAN_PASSWORD != "false" ]
 then
 
-	cat > /etc/mysql/debian.cnf << EOF
+cat > /etc/mysql/debian.cnf << EOF
 # Automatically generated for Debian scripts. DO NOT TOUCH!
 [client]
 host     = localhost
@@ -573,6 +573,10 @@ fi
 
 
 
+mytest apt-get -qq update > /dev/null
+mytest apt-get -qq install -y percona-xtrabackup-24 percona-toolkit > /dev/null
+mytest apt-get -qq install -y netcat tar socat lsof > /dev/null
+
 
 
 if [ $BOOTSTRAP = 'true' ]
@@ -582,17 +586,15 @@ else
 	mytest /etc/init.d/mysql start 2>&1 > /dev/null
 fi
 
-mytest apt-get -qq update > /dev/null
-mytest apt-get -qq install -y percona-xtrabackup-24 percona-toolkit > /dev/null
-mytest apt-get -qq install -y netcat tar socat lsof > /dev/null
+
 
 #backup
-apt-get -qq -y install mydumper > /dev/null
+mytest apt-get -qq -y install mydumper > /dev/null
 
 
 #vim 
 
-apt-get -qq -y install vim > /dev/null
+mytest apt-get -qq -y install vim > /dev/null
 echo -e "syntax on" > /root/.vimrc
 echo -e "set mouse=r" >> /root/.vimrc
 
