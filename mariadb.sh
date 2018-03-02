@@ -10,7 +10,7 @@ PURGE='false'
 DATADIR='/var/lib/mysql'
 REPO_LOCAL='false'
 BOOTSTRAP='false'
-DEBIAN_PASSWORD='false'
+
 
 while getopts 'hp:n:m:xv:sgcud:rbx:' flag; do
   case "${flag}" in
@@ -550,7 +550,7 @@ EOF
 
 
 
-if [ $DEBIAN_PASSWORD != "false" ]
+if [ -n $DEBIAN_PASSWORD ]
 then
 
 cat > /etc/mysql/debian.cnf << EOF
