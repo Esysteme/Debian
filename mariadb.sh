@@ -2,7 +2,6 @@
 VERSION='10.2'
 CLUSTER_NAME='68Koncept'
 CLUSTER_MEMBER=''
-PHP='false'
 PASSWORD=''
 SSD='false'
 SPIDER='false'
@@ -11,8 +10,9 @@ PURGE='false'
 DATADIR='/var/lib/mysql'
 REPO_LOCAL='false'
 BOOTSTRAP='false'
+DEBIAN_PASSWORD='false'
 
-while getopts 'hp:n:m:xv:sgcud:rb' flag; do
+while getopts 'hp:n:m:xv:sgcud:rbx:' flag; do
   case "${flag}" in
     h) 
         echo "auto install mariadb"
@@ -28,8 +28,10 @@ while getopts 'hp:n:m:xv:sgcud:rb' flag; do
         echo "-c                      set galera cluster ON"
         echo "-u                      [WARNING] purge previous version of MySQL / MariaDB"
 	echo "-d		      set datadir of MySQL (replace of /var/lib/mysql)"
-	echo "-r		      if present use current directory"
+	echo "-r		      if present use current the reposiry, else we install the one from MariaDB"
 	echo "-b		      boostrap a new cluster"
+	echo "-d                      specify directory where MariaDB will be installed"
+	echo "-x		      specify the password for debian-sys-maint (for cluster)"
         exit 0
     ;;
     p) PASSWORD="${OPTARG}" ;;
@@ -43,6 +45,7 @@ while getopts 'hp:n:m:xv:sgcud:rb' flag; do
     d) DATADIR="${OPTARG}";;
     r) REPO_LOCAL='true';;
     b) BOOTSTRAP='true';;
+    x) DEBIAN_PASSWORD="${OPTARG}" ;;
     *) echo "Unexpected option ${flag}" 
 	exit 0
     ;;
@@ -544,6 +547,32 @@ key_buffer              = 16M
 !includedir /etc/mysql/conf.d/
 
 EOF
+
+
+
+if [ $DEBIAN_PASSWORD != "false" ]
+then
+
+	cat > /etc/mysql/debian.cnf << EOF
+# Automatically generated for Debian scripts. DO NOT TOUCH!
+[client]
+host     = localhost
+user     = debian-sys-maint
+password = $DEBIAN_PASSWORD
+socket   = /var/run/mysqld/mysqld.sock
+[mysql_upgrade]
+host     = localhost
+user     = debian-sys-maint
+password = $DEBIAN_PASSWORD
+socket   = /var/run/mysqld/mysqld.sock
+basedir  = /usr
+
+EOF
+
+fi
+
+
+
 
 
 if [ $BOOTSTRAP = 'true' ]
