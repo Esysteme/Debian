@@ -260,10 +260,10 @@ chown mysql:mysql -R $DATADIR
 
 if [ $REPO_LOCAL = "false" ]
 then
-	wget https://repo.percona.com/apt/percona-release_0.1-4.${OS}_all.deb
-	dpkg -i percona-release_0.1-4.${OS}_all.deb
+	wget https://repo.percona.com/apt/percona-release_0.1-5.${OS}_all.deb
+	dpkg -i percona-release_0.1-5.${OS}_all.deb
 
-	rm percona-release_0.1-4.${OS}_all.deb
+	rm percona-release_0.1-5.${OS}_all.deb
 fi
 
 
