@@ -1,12 +1,12 @@
 
-## global
+## Global
 
-Tout les nom doivent être en français sans accent
+Tout les noms doivent être en français sans accent
 
 Si il y a la présence de verbe ces derniers doivent être à l'infinitif.
 
 
-## nom des tables & des champs
+## Nom des tables & des champs
 
 Tout au singulier (nom des tables, des champs)
 Pas d'accents 
@@ -19,7 +19,7 @@ Tout en minuscule séparer pas des souligner (snake_case)
 Les clefs étrangères doivent commencer par id_ et être suivie par le nom de la table référencé.
 
 
-Toutes les tables doivent être avoir un champs id autoincrémenté en clef principale.
+Toutes les tables doivent être avoir un champs id auto-incrémenté en clef principale.
 La vrai clef principale doit être en index unique (si besoin)
 
 
