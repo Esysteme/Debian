@@ -599,7 +599,8 @@ if [ $BOOTSTRAP = 'true' ]
 then 
 	mytest galera_new_cluster 2>&1 > /dev/null
 else
-	mytest /etc/init.d/mysql start 2>&1 > /dev/null
+	mytest service mysql start 2>&1 > /dev/null
+	#mytest /etc/init.d/mysql start 2>&1 > /dev/null
 fi
 
 
