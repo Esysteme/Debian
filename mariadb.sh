@@ -244,7 +244,8 @@ if [ memtotal > 4 ];then
   innodb_buffer_pool_size=`echo $new_buffer | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}'`
 fi
 
-mytest /etc/init.d/mysql stop > /dev/null
+mytest service mysql stop > /dev/null
+#mytest /etc/init.d/mysql stop > /dev/null
 
 mkdir -p $DATADIR/log
 mkdir -p $DATADIR/backup
