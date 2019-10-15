@@ -158,12 +158,12 @@ if [ $REPO_LOCAL = "false" ]
 	
 	
 	
-		cat > /etc/yum.repos.d/MariaDB-10.4.repo << EOF
+		cat > /etc/yum.repos.d/MariaDB-${VERSION}.repo << EOF
 # MariaDB 10.4 CentOS repository list - created 2019-10-15 13:30 UTC
 # http://downloads.mariadb.org/mariadb/repositories/
 [mariadb]
 name = MariaDB
-baseurl = http://yum.mariadb.org/10.4/centos8-amd64
+baseurl = http://yum.mariadb.org/${VERSION}/centos8-amd64
 gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
 EOF
