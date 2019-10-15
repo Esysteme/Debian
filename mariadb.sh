@@ -114,6 +114,9 @@ case "$OS" in
     "xenial")      ;;
     "zesty")       ;;
     "bionic")       ;;
+    "Core")         
+    
+    ;;
     *)
         echo "This version is not supported : '$OS'"
         exit 1;
@@ -127,6 +130,10 @@ case "$DISTRIB" in
         
     "ubuntu")
         ;;
+	
+    "centos")
+        ;;
+	
 
     *)
         echo "This distribution GNU/Linux is not supported : '$DISTRIB'"
@@ -145,10 +152,30 @@ echo "OS = $OS"
 if [ $REPO_LOCAL = "false" ]
 	then
 
+
+	if [ $OS = "DISTRIB ]
+		then
+	
+	
+	
+		cat > /etc/yum.repos.d/MariaDB-10.4.repo << EOF
+# MariaDB 10.4 CentOS repository list - created 2019-10-15 13:30 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.4/centos8-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+EOF
+	
+	else
+
+
+
+
 	echo "Import public key"
 	mytest wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF1656F24C74CD1D8" | apt-key add -
 	mytest wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xcbcb082a1bb943db" | apt-key add -
-
 
 	#to get missing keys
 	mytest apt-get -m -qq -y update 2> /tmp/keymissing; 
@@ -158,7 +185,6 @@ if [ $REPO_LOCAL = "false" ]
 	  wget -q -O- "http://keyserver.ubuntu.com/pks/lookup?op=get&search=$key" | apt-key add -
 	  #gpg --keyserver subkeys.pgp.net --recv $key && gpg --export --armor $key | apt-key add -; 
 	done
-
 
 
 
