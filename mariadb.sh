@@ -114,7 +114,7 @@ case "$OS" in
     "xenial")      ;;
     "zesty")       ;;
     "bionic")       ;;
-    "eoan"))        ;;
+    "eoan")        ;;
     "Core")         
     
     ;;
